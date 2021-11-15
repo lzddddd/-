@@ -1,19 +1,14 @@
 <template>
   <div class="main">
-    <!-- 登录背景 -->
     <img src="~assets/img/login/wave.png" alt="" class="wave">
-
-    <div class="bg">
-      <div class="main-bg">
-        <img src="~assets/img/login/login-bg.svg" alt=""> 
-      </div>
-    </div>
   
-    <!-- 登录输入界面 -->
-    <div class="login-box">
-      <entry/>
+    <div class="container">
+      <div class="img">
+        <img src="~assets/img/login/login-bg.svg" alt="">
     </div>
-
+      
+    <entry class="input-box"/>
+    </div>
   </div>
 </template>
 
@@ -29,37 +24,39 @@ export default {
 </script>
 
 <style scoped>
-.main {
-  width: 100vw;
-  height: 100vh;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
-
-.bg {
-  float: left;
-  width: 40%;
-  padding: 0 2rem;
+body {
+  font-family: "Roboto", sans-serif;
 }
-
-.main-bg {
-  margin-top: 30%;
-  text-align: center;
-}
-
 .wave {
   position: fixed;
-  left: 0;
-  top: 0;
   height: 100%;
+  left: 0;
+  bottom: 0;
   z-index: -1;
 }
-
-.bg img {
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 18rem;
+  padding: 0 2rem;
+}
+.img {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.img img {
   width: 500px;
 }
 
-.login-box {
-  float: right;
-  width: 60%;
-  text-align: center;
+.input-box {
+  margin-top: 20%;
 }
 </style>
