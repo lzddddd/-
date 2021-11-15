@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      eye: false,
+      eye: true,
       // 密码输入框，默认是password，密码以原点显示
       pwdType: "password"
     };
