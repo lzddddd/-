@@ -1,12 +1,13 @@
 <template>
-  <div class="">
-   首页组件
+  <div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Home',
-  components: {}
-}
+  name: "Home"
+};
 </script>
+
+<style scoped>
+</style>

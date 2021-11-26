@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="login-box">
-        <form action="">
+
+        <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="loginForm">
           <!-- 头像 -->
           <img src="~assets/img/login/avatar.svg" alt="" class="avatar">
 
@@ -9,69 +10,130 @@
           <h2 class="title">欢迎</h2>
 
           <!-- 输入区域 -->
-          <div class="input-group">
+          <el-form-item prop="username" class="input-group">
 
             <div class="icon">
-              <!-- <i class="fa fa-user"></i> -->
-              <img src="~assets/img/login/user.svg" alt="">
+              <img src="~assets/img/login/user.svg" alt="">            
             </div>
 
             <div>
               <!-- <h5>用户名/学号</h5> -->
-              <input type="text" class="input" placeholder="用户名/学号">
+              <el-input  v-model="loginForm.username" placeholder="用户名/学号" type="text" class="input"></el-input>
             </div>
-          </div>
+          </el-form-item>
 
-          <div class="input-group">
+          <el-form-item prop="password" class="input-group" prefix>
             <div class="icon">
               <img src="~assets/img/login/pwd.svg" alt="">
             </div>
 
             <div class="pwd">
               <!-- <h5>密码</h5> -->
-              <input :type="pwdType" class="input" placeholder="密码">
+              <el-input :type="pwdType" v-model="loginForm.password" class="input" placeholder="密码"></el-input>
+
+              <!-- 密码可见/不可见--眼睛icon -->
               <div class="eye" @click="eyeClick">
                 <img src="~assets/img/login/visible.svg" alt="" v-if="eye">
                 <img src="~assets/img/login/invisible.svg" alt="" v-else>
               </div>
               
             </div>
-          </div>
+          </el-form-item>
+
           <a href="#">忘记密码?</a>
-          <div class="btn">登录</div>
+
+          <!-- 登录按钮 -->
+          <div @click="handleLoginIn" class="btn">登录</div>
          
-        </form>
+
+         <!-- test -->
+          <!-- <div @click="testClick" class="btn">测试</div> -->
+
+        </el-form>
       </div>
+
   </div>
 </template>
 
 <script>
-import NavBar from "components/common/navbar/NavBar";
-import { log } from "util";
+import NavBar from 'components/common/navbar/NavBar'
+
+import { loginPost } from 'network/login'
 
 export default {
-  name: "Entry",
+  name: 'Entry',
   components: {
     NavBar
   },
   data() {
     return {
-      eye: true,
+      eye: false,
       // 密码输入框，默认是password，密码以原点显示
-      pwdType: "password"
-    };
-  },
-  methods: {
-    eyeClick() {
-      this.eye = !this.eye;
-      if (this.eye) {
-        this.pwdType = "text";
-      } else {
-        this.pwdType = "password";
+      pwdType: 'password',
+      // 表单对象
+      loginForm: {
+        username: 'admin',
+        password: '123456'
+      },
+      // 表单验证规则
+      loginFormRules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'change' }
+          // { min: 11, max: 11, message: "请输入正确的学号", trigger: "blur" }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
+          // { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
+        ]
       }
     }
+  },
+  methods: {
+    // 设置密码是否可见
+    eyeClick() {
+      this.eye = !this.eye
+      if (this.eye) {
+        this.pwdType = 'text'
+      } else {
+        this.pwdType = 'password'
+      }
+    },
+
+    // 登录按钮点击
+    handleLoginIn() {
+      this.$refs.loginFormRef.validate(async valid => {
+        if (!valid) {
+          // return this.$message.error("请输出入正确的用户名/密码");
+          alert('请输出入正确的用户名/密码')
+        }
+
+        // const res = await loginPost(this.loginForm);
+        // console.log(res);
+
+        const res = await loginPost(this.loginForm)
+
+        // const { data: res } = await this.$http.post("login", this.loginForm);
+        console.log(res)
+        if (res.meta.status !== 200) {
+          return this.$message.error('登录失败，输出入正确的用户名/密码')
+        }
+        this.$message.success('登录成功，欢迎！')
+
+        // 1. 将登录成功之后的token，保存到客户端的 sessionStorage 中
+        // 1.1 项目中，除了登录之外的其他API接口，必须在登录之后才能访问
+        // 1.2 token 只应在当前网站打开期间生效，所以将token 保存到 sessionStorage 中
+        window.sessionStorage.setItem('token', res.data.token)
+        // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
+        this.$router.push('/home')
+      })
+    },
+
+    // 测试
+    testClick() {
+      this.$router.push('/test')
+    }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -81,7 +143,7 @@ export default {
   text-align: center;
 }
 
-form {
+.loginForm {
   width: 360px;
 }
 
@@ -102,7 +164,7 @@ form {
   display: grid;
   grid-template-columns: 7% 93%;
   margin: 25px 0;
-  padding: 5px 0;
+  padding: 0 10px;
   border-bottom: 2px solid #d9d9d9;
 }
 
@@ -110,29 +172,14 @@ form {
   margin-bottom: 4px;
 }
 
-.input-group:before,
-.input-group:after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  width: 0;
-  height: 2px;
-  background-color: #38d39f;
-  transition: 0.5s;
-}
-
-.input-group:after {
-  right: 50%;
-}
-.input-group:before {
-  left: 50%;
-}
-
+/* 用户名/密码 图标 */
 .icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: absolute;
+  top: 7px;
+  left: -20px;
+  z-index: 10;
 }
+
 .icon img {
   width: 25px;
   height: 25px;
@@ -143,57 +190,41 @@ form {
   height: 45px;
 }
 
-.input-group > div > h5 {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #aaa;
-  font-size: 18px;
-  transition: 0.3s;
-}
-.input-group.focus .icon i {
-  color: #38d39f;
-}
-.input-group.focus div h5 {
-  top: -5px;
-  font-size: 15px;
-}
-.input-group.focus:after,
-.input-group.focus:before {
-  width: 50%;
-}
-
-.input {
+input {
   position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
-  left: 0;
-  border: none;
+  left: 10px;
+  border: 0;
   outline: none;
   background: none;
   padding: 0.5rem 0.7rem;
-  font-size: 1.2rem;
+  font-size: 3.2rem;
   color: #555;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
+
+/* .input::-webkit-input-placeholder {
+  color: #ccc;
+} */
 
 /* 密码--眼睛可见/不可见 */
 
 .pwd {
   position: relative;
 }
+
 .eye {
   position: absolute;
-  top: 5px;
-  right: 0;
+  top: 12px;
+  right: 10px;
   cursor: pointer;
 }
 
 .eye img {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
 }
 
 /* 忘记密码 */
@@ -209,19 +240,21 @@ a:hover {
   color: #38d39f;
 }
 
+/* 登录按钮 */
 .btn {
-  display: block;
   width: 100%;
   height: 50px;
   line-height: 50px;
   border-radius: 25px;
   margin: 1rem 0;
   font-size: 1.2rem;
+  background-size: 200%;
   background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
   cursor: pointer;
   color: #fff;
   transition: 0.5s;
 }
+
 .btn:hover {
   background-position: right;
 }
