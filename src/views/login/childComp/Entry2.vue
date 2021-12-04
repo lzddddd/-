@@ -51,17 +51,13 @@
 </template>
 
 <script>
-import NavBar from 'components/common/navbar/NavBar'
-
 import { loginPost2 } from 'network/login'
 
 import axios from 'axios'
 
 export default {
   name: 'Entry',
-  components: {
-    NavBar
-  },
+  components: {},
   data() {
     return {
       eye: false,

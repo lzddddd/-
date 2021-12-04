@@ -6,9 +6,10 @@ Vue.use(VueRouter)
 const Home = () => import('views/home/Home')
 const Login = () => import('views/login/Login')
 const Selection = () => import('views/selection/Selection')
-const Timetable = () => import('views/timetable/Timetable')
+const Timetable = () => import('views/myinfo/Timetable')
+const Myinfo = () => import('views/myinfo/Myinfo')
 
-const Test = () => import('views/test/Test')
+
 
 
 const routes = [
@@ -50,17 +51,24 @@ const routes = [
           title: '个人课表'
         }
       },
+
+      {
+        path: 'myinfo',
+        component: Myinfo,
+        meta: {
+          title: '个人信息'
+        }
+      },
+      {
+        path: 'timetable',
+        component: Timetable,
+        meta: {
+          title: '个人课表'
+        }
+      },
     ]
   },
 
-  {
-    path: '/test',
-    name: 'Test',
-    component: Test,
-    meta: {
-      title: '测试'
-    }
-  }
 
 ]
 
@@ -84,17 +92,24 @@ router.beforeEach((to, from, next) => {
 
 })
 
-// token拦截
-// router.beforeEach((to, from, next) => {
-//   if (to.path === '/login') {
-//     return next()
-//   }
-//   const tokenStr = sessionStorage.getItem('token')
-//   if (!tokenStr) {
-//     return next('/login')
-//   }
-//   next()
-// })
+
+// 导航守卫
+// 使用 router.beforeEach 注册一个全局前置守卫，判断用户是否登陆
+router.beforeEach((to, from, next) => {
+  if (to.path === '/login') {
+    next()
+  }
+  else {
+    //非跳转到登录界面时，判断本地存储userData是否为null或空，为空则跳回到登录界面，反之到相应的界面(此时有数据)。
+    let myInfo = sessionStorage.getItem('myInfo')
+    if (myInfo === null || myInfo === '') {
+      next('/')
+    }
+    else {
+      next()
+    }
+  }
+});
 
 
 export default router

@@ -57,7 +57,7 @@
             </el-menu-item>
 
             <!-- 查看个人信息 -->
-            <el-menu-item index="stuinfo">
+            <el-menu-item index="myinfo">
               <template slot="title">
                 <i class="el-icon-date icon"></i>
                 <span>个人信息</span>

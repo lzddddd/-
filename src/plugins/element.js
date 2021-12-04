@@ -22,7 +22,10 @@ import {
   Option,
   Table,
   TableColumn,
-  Switch
+  Switch,
+  Descriptions,
+  DescriptionsItem,
+  Tag
 } from 'element-ui'
 
 Vue.use(Button)
@@ -47,6 +50,9 @@ Vue.use(Option)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Switch)
+Vue.use(Descriptions)
+Vue.use(DescriptionsItem)
+Vue.use(Tag)
 
 
 Vue.prototype.$message = Message
