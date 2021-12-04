@@ -3,9 +3,13 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-const Home = () => import('views/Home')
-const Test = () => import('views/test/Test')
+const Home = () => import('views/home/Home')
 const Login = () => import('views/login/Login')
+const Selection = () => import('views/selection/Selection')
+const Timetable = () => import('views/timetable/Timetable')
+
+const Test = () => import('views/test/Test')
+
 
 const routes = [
   {
@@ -23,12 +27,32 @@ const routes = [
   },
   {
     path: '/home',
-    name: 'Home',
     component: Home,
     meta: {
       title: '首页'
-    }
+    },
+    children: [
+      {
+        path: '/',
+        redirect: 'selection'
+      },
+      {
+        path: 'selection',
+        component: Selection,
+        meta: {
+          title: '学生选课'
+        }
+      },
+      {
+        path: 'timetable',
+        component: Timetable,
+        meta: {
+          title: '个人课表'
+        }
+      },
+    ]
   },
+
   {
     path: '/test',
     name: 'Test',
@@ -48,20 +72,29 @@ const router = new VueRouter({
 
 // 设置标题
 router.beforeEach((to, from, next) => {
-  document.title = to.matched[0].meta.title
+  //beforeEach是router的钩子函数，在进入路由前执行
+  if (to.meta.title) {
+    //判断是否有标题
+    console.log(to.meta.title)
+    document.title = to.meta.title
+  } else {
+    document.title = '学生选课系统'
+  }
   next()
+
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.path === '/login') {
-    return next()
-  }
-  const tokenStr = sessionStorage.getItem('token')
-  if (!tokenStr) {
-    return next('/login')
-  }
-  next()
-})
+// token拦截
+// router.beforeEach((to, from, next) => {
+//   if (to.path === '/login') {
+//     return next()
+//   }
+//   const tokenStr = sessionStorage.getItem('token')
+//   if (!tokenStr) {
+//     return next('/login')
+//   }
+//   next()
+// })
 
 
 export default router

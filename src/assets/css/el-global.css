@@ -1,10 +1,28 @@
- .el-input__inner {
+ /* .el-input__inner {
    border: none !important;
    font-size: 16px !important;
+ } */
 
+ /* 输入框的placeholder */
+ .el-input__inner::-webkit-input-placeholder {
+   color: #888 !important;
+   font-size: 13px !important;
  }
 
- .el-input__inner::-webkit-input-placeholder {
-   color: #aaa !important;
-   font-size: 16px !important;
+
+ /* 面包屑导航 */
+ .el-breadcrumb {
+   margin-bottom: 15px;
+ }
+
+ /*卡片区域  */
+ .el-card {
+   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
+   width: 100%;
+ }
+
+ /* 表格区域 */
+ .el-table {
+   margin-top: 25px;
+   border-top: 1px solid #ccc;
  }

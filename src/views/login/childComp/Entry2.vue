@@ -53,7 +53,9 @@
 <script>
 import NavBar from 'components/common/navbar/NavBar'
 
-import { loginPost } from 'network/login'
+import { loginPost2 } from 'network/login'
+
+import axios from 'axios'
 
 export default {
   name: 'Entry',
@@ -74,12 +76,8 @@ export default {
       loginFormRules: {
         account: [
           { required: true, message: '请输入用户名', trigger: 'change' }
-          // { min: 11, max: 11, message: "请输入正确的学号", trigger: "blur" }
         ],
-        password: [
-          { required: true, message: '请输入密码', trigger: 'blur' }
-          // { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
-        ]
+        password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
       }
     }
   },
@@ -95,27 +93,53 @@ export default {
     },
 
     handleLoginIn() {
+      console.log(111)
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) {
           return this.$message.error('请输出入正确的用户名/密码')
         }
 
-        const res = await loginPost(
+        // const res = await axios.get('api/lesson/getByMajorId?majorId=1011')
+        const res = await loginPost2(
           this.loginForm.account,
           this.loginForm.password
         )
+
+        // const res = await axios.get('api/index/ding.json')
+
         console.log(res)
+        // if (res.meta.status === 500) {
+        //   return this.$message.error('登录失败，输出入正确的用户名/密码')
+        // }
+        // this.$message.success('登录成功，欢迎！')
 
-        this.$store.state.stuInfo = res.data
-
-        if (res.status !== 200) {
-          console.log(11)
-          return this.$message.error('登录失败，输出入正确的用户名/密码')
-        }
-        this.$message.success('登录成功，欢迎！')
-        this.$router.push('/home')
+        // // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
+        // this.$router.push('/home')
       })
     }
+
+    // 登录按钮点击--本地版
+    // handleLoginIn() {
+    //   this.$refs.loginFormRef.validate(async valid => {
+    //     if (!valid) {
+    //       return this.$message.error('请输出入正确的用户名/密码')
+    //     }
+
+    //     const res = await loginPost(this.loginForm)
+    //     console.log(res)
+
+    //     if (res.meta.status !== 200) {
+    //       return this.$message.error('登录失败，输出入正确的用户名/密码')
+    //     }
+    //     this.$message.success('登录成功，欢迎！')
+
+    //     // 1. 将登录成功之后的token，保存到客户端的 sessionStorage 中
+    //     // 1.1 项目中，除了登录之外的其他API接口，必须在登录之后才能访问
+    //     // 1.2 token 只应在当前网站打开期间生效，所以将token 保存到 sessionStorage 中
+    //     window.sessionStorage.setItem('token', res.data.token)
+    //     // 2. 通过编程式导航跳转到后台主页，路由地址是 /home
+    //     this.$router.push('/home')
+    //   })
   }
 }
 </script>

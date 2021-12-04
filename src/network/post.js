@@ -6,6 +6,37 @@ export function post(config) {
 
   // 创建axios的实例
   const instance = axios.create({
+    baseURL: 'http://112.74.126.4:8080/',
+    timeout: 5000
+  })
+
+
+  instance.interceptors.response.use(config => {
+    console.log(config);
+    return config
+  }, err => {
+    console.log(err);
+  })
+
+  // 2.2响应拦截器
+  instance.interceptors.response.use(res => {
+    // 同理，需要将结果返回出去   结果只需要data
+    return res
+  }, err => {
+    console.log(err);
+  })
+
+  // 返回一个Promise
+  return instance(config)
+}
+
+
+
+// 本地jiagou
+export function post2(config) {
+
+  // 创建axios的实例
+  const instance = axios.create({
     baseURL: 'http://127.0.0.1:8888/api/private/v1/',
     timeout: 5000
   })
@@ -38,3 +69,4 @@ export function post(config) {
   // 返回一个Promise
   return instance(config)
 }
+
