@@ -1,12 +1,13 @@
 <template>
-  <div class="">
-   
+  <div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "",
-  components: {}
-};
+  name: 'Major'
+}
 </script>
+
+<style scoped>
+</style>

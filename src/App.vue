@@ -1,22 +1,17 @@
 <template>
   <div id="app">
-    <login/>
-    <!-- <router-view/> -->
+   <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Login from "views/login/Login";
-
 export default {
-  name: "APP",
-  components: {
-    Login
-  }
+  name: "app",
+  components: {}
 };
 </script>
 
-
 <style>
 @import "./assets/css/base.css";
+@import "./assets/css/el-global.css";
 </style>

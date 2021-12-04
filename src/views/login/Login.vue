@@ -1,26 +1,30 @@
 <template>
   <div class="main">
     <img src="~assets/img/login/wave.png" alt="" class="wave">
-  
+
     <div class="container">
       <div class="img">
         <img src="~assets/img/login/login-bg.svg" alt="">
-    </div>
-      
-    <entry class="input-box"/>
+      </div>
+
+      <!-- <h2 class="title">学生选课系统</h2> -->
+
+      <entry class="input-box" />
     </div>
   </div>
 </template>
 
 <script>
-import Entry from "./childComp/Entry";
+import Entry from './childComp/Entry'
+import EntryTwo from './childComp/Entry2'
 
 export default {
-  name: "Login",
+  name: 'Login',
   components: {
-    Entry
+    Entry,
+    EntryTwo
   }
-};
+}
 </script>
 
 <style scoped>
@@ -30,8 +34,16 @@ export default {
   box-sizing: border-box;
 }
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
+
+.title {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  font-size: 2.9rem;
+}
+
 .wave {
   position: fixed;
   height: 100%;
