@@ -112,6 +112,8 @@ import { dropLesson } from 'network/drop'
 
 export default {
   name: 'Drop',
+  inject: ['reload'],
+
   data() {
     return {
       // 课程数据
@@ -206,7 +208,7 @@ export default {
       }
 
       // 重新获取一下最新的 课程列表
-      this.getLessonSelected()
+      this.reload()
     },
 
     // 实现分页显示

@@ -109,6 +109,7 @@ export default {
       window.sessionStorage.clear('myInfo')
       // 跳转到登录页
       this.$router.push('/login')
+      this.$message.success('退出登录成功')
     },
 
     // 折叠按钮
