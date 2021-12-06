@@ -74,7 +74,7 @@
 
         <!-- 查询按钮 -->
         <el-col :span="6">
-          <el-button @click="searchClick" type="primary" size="medium">查询</el-button>
+          <el-button @click="searchClick()" type="primary" size="medium">查询</el-button>
         </el-col>
 
       </el-row>
@@ -153,6 +153,7 @@ import {
 } from 'network/selection'
 
 export default {
+  inject: ['reload'],
   name: 'Selection',
   data() {
     return {
@@ -237,7 +238,7 @@ export default {
   mounted() {},
   methods: {
     // 查询课程
-    async searchClick() {
+    async searchClick(lid) {
       const { data: res } = await searchLesson(this.searchRequestBody)
       this.lessonData = res.data
       this.lessonTotal = res.pageCount
@@ -345,6 +346,8 @@ export default {
         return
       }
       this.searchClick()
+
+      this.reload()
     },
 
     //获取课程总数
@@ -369,10 +372,10 @@ export default {
     // 计算是否禁用选课按钮
     isDisabled(lid) {
       let res = this.lessonSelected.some(item => {
-        console.log(item.lid)
+        // console.log(item.lid)
         return item.lid === lid
       })
-      console.log('是否禁用', res)
+      // console.log('是否禁用', res)
       return res
     }
 

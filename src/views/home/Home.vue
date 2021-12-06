@@ -85,7 +85,6 @@
 <script>
 export default {
   name: 'Home',
-  components: {},
   data() {
     return {
       // 是否折叠侧边栏

@@ -201,7 +201,12 @@ export default {
 
       if (res.status === 500) {
         this.$message.error(res.data.message)
+      } else if (res.status === 200) {
+        this.$message.success('退课成功')
       }
+
+      // 重新获取一下最新的 课程列表
+      this.getLessonSelected()
     },
 
     // 实现分页显示
