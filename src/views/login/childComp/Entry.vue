@@ -106,7 +106,7 @@ export default {
           this.loginForm.account,
           this.loginForm.password
         )
-        console.log(res)
+        console.log('登录结果', res)
 
         // 保存个人信息
         window.sessionStorage.setItem('myInfo', JSON.stringify(res.data))

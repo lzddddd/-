@@ -334,6 +334,7 @@ export default {
       if (res.status === 200) {
         console.log(11)
         this.$message.success('选课成功')
+        this.reload()
       } else {
         this.$message.error(res.data.message)
       }
@@ -346,8 +347,6 @@ export default {
         return
       }
       this.searchClick()
-
-      this.reload()
     },
 
     //获取课程总数
