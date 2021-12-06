@@ -2,21 +2,13 @@
   <div>
     <div class="userInfo">
       <div class="avatar">
-        <img src="../../assets/img/avatar/avatar.jpg" alt="" />
+        <img src="~assets/img/avatar/avatar.jpg" alt="" />
       </div>
       <div class="Info">
-        <span style="margin: 10px 10px 10px 10px"
-          >用户: {{ userInfo.studentDO.name }}</span
-        >
-        <span style="margin: 10px 10px 10px 10px"
-          >学号: {{ userInfo.studentDO.stuId }}</span
-        >
-        <span style="margin: 10px 10px 10px 10px"
-          >学院: {{ userInfo.collegeMajorDO.collegeName }}</span
-        >
-        <span style="margin: 10px 10px 10px 10px"
-          >专业: {{ userInfo.collegeMajorDO.majorName }}</span
-        >
+        <span style="margin: 10px 10px 10px 10px">用户: {{ userInfo.studentDO.name }}</span>
+        <span style="margin: 10px 10px 10px 10px">学号: {{ userInfo.studentDO.stuId }}</span>
+        <span style="margin: 10px 10px 10px 10px">学院: {{ userInfo.collegeMajorDO.collegeName }}</span>
+        <span style="margin: 10px 10px 10px 10px">专业: {{ userInfo.collegeMajorDO.majorName }}</span>
       </div>
     </div>
     <div class="table">
@@ -146,7 +138,7 @@ export default {
       class28: {},
       class38: {},
       class48: {},
-      class58: {},
+      class58: {}
     }
   },
 
@@ -163,10 +155,10 @@ export default {
     },
     // 获取用户课表
     getClassTable(stuId) {
-      getPersonTable(stuId).then((res) => {
+      getPersonTable(stuId).then(res => {
         console.log('class', res)
         this.classData = [...res.data]
-        this.classData.map((item) => {
+        this.classData.map(item => {
           console.log('item', item)
           if (item.weekday === 1 && item.classes === 1) {
             this.class11 = item
@@ -257,8 +249,8 @@ export default {
         //   })
         // })
       })
-    },
-  },
+    }
+  }
 }
 </script>
 
