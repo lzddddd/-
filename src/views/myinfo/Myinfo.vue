@@ -14,21 +14,10 @@ export default {
     ShowInfo
   },
   data() {
-    return {
-      stuInfo: {}
-    }
+    return {}
   },
-  created() {
-    // this.getStuInfo()
-    const res = window.sessionStorage.getItem('myInfo')
-    res = JSON.parse
-    console.log(res)
-  },
-  methods: {
-    // getStuInfo() {
-    //   this.stuInfo = this.$store.state.stuInfo
-    //   console.log(this.stuInfo)
-  }
+  created() {},
+  methods: {}
 }
 </script>
 

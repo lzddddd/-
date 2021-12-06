@@ -1,16 +1,10 @@
 <template>
   <div class="selection-contain">
-    <!-- 面包屑导航 -->
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-      <el-breadcrumb-item>用户列表</el-breadcrumb-item>
-    </el-breadcrumb>
 
-    <!-- 卡片视图区域 -->
-    <el-card class="box-card">
+    <!-- 搜索框 -->
+    <el-card :body-style="{ padding: '10px 20px' }" class="search-card">
       <!-- 搜索 -->
-      <el-row type="flex" class="row-bg" justify="start">
+      <el-row>
 
         <el-col :span="6">
           校&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;区：
@@ -47,31 +41,47 @@
       </el-row>
 
       <el-row type="flex" justify="start">
-
         <!-- 课程名称 -->
         <el-col :span="6">
           课程名称：
-          <el-input v-model="searchRequestBody.lessonName" placeholder="请输入内容"></el-input>
+          <el-input v-model="searchRequestBody.lessonName" placeholder="请输入内容" autocomplete></el-input>
         </el-col>
+
         <!-- 老师名称 -->
         <el-col :span="6">
           教师姓名：
           <el-input v-model="searchRequestBody.teacherName" placeholder="请输入内容"></el-input>
         </el-col>
+      </el-row>
+
+      <el-row type="flex" justify="start">
 
         <!-- 过滤已满 -->
         <el-col :span="6">
           <div class="switch">
             过滤已满：
-            <el-switch @change="filterFull" v-model="isFull" :width="50" active-color="#06b799"></el-switch>
+            <el-switch @change="filterFull" v-model="isFilter" :width="50" active-color="#06b799"></el-switch>
+          </div>
+        </el-col>
+
+        <!-- 只看专业课 -->
+        <el-col :span="6">
+          <div class="switch">
+            只看专业课：
+            <el-switch @change="onlyMajor" v-model="isMajor" :width="50" active-color="#06b799"></el-switch>
           </div>
         </el-col>
 
         <!-- 查询按钮 -->
         <el-col :span="6">
-          <el-button @click="searchClick" type="primary" size="medium">查询</el-button>
+          <el-button @click="searchClick()" type="primary" size="medium">查询</el-button>
         </el-col>
+
       </el-row>
+    </el-card>
+
+    <!-- 课程数据视图区域 -->
+    <el-card class="lessons-card">
 
       <!-- 课程数据 -->
       <el-table :data="lessonData" stripe>
@@ -117,25 +127,42 @@
 
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
-            <el-button @click="selectClick" type="primary" size="small">选课</el-button>
+            <el-button @click="selectClick(scope.row.lid)" :disabled="isDisabled(scope.row.lid)" :plain="isDisabled(scope.row.lid)" :type="isDisabled(scope.row.lid)?'info':'primary'" size="small">{{isDisabled(scope.row.lid)?'已选':'选课'}}</el-button>
           </template>
         </el-table-column>
 
       </el-table>
+
+      <!-- 分页区域 -->
+
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :page-sizes="[5, 10, 20]" :page-size="searchRequestBody.pageSize" :current-page="searchRequestBody.pageIndex" :total="lessonTotal" layout="total, sizes, prev, pager, next, jumper" background>
+      </el-pagination>
+
     </el-card>
 
   </div>
 </template>
 
 <script>
-import { searchLesson, getLessonList } from 'network/selection'
+import {
+  searchLesson,
+  getLessonList,
+  selectLesson,
+  getLessonCount,
+  getLessonSelected
+} from 'network/selection'
 
 export default {
+  inject: ['reload'],
   name: 'Selection',
   data() {
     return {
       // 是否过滤已满
-      isFull: false,
+      isFilter: false,
+      // 是否只看专业课
+      isMajor: false,
+      // 禁用选课按钮
+      // isDisabled: false,
       // 课程数据
       lessonData: [
         // 测试数据
@@ -170,60 +197,108 @@ export default {
       ],
 
       searchRequestBody: {
+        // 专业课Id
+        majorId: '',
+        // 当前页码
+        pageIndex: 1,
+        // 每页数据量
+        pageSize: 10,
+        // 是否过滤已满
+        filter: 0,
         campusId: '',
         required: '',
         weekday: '',
         lessonName: '',
         teacherName: ''
-      }
+      },
+
+      // 课程总数
+      lessonTotal: 0,
+      // 学生已选课程
+      lessonSelected: []
     }
   },
 
   // 计算属性
-  computed: {},
+  computed: {
+    // 专业id
+    majorId() {
+      return this.$store.state.myInfo.collegeMajorDO.majorId
+    }
+  },
   created() {
     // 获取课程列表信息
     this.getLessonList()
+    // 获取课程总数
+    this.getLessonCount()
+    // 获取学生已选课程
+    this.getLessonSelected()
   },
+
   mounted() {},
   methods: {
     // 查询课程
-    async searchClick() {
-      console.log(this.searchRequestBody)
+    async searchClick(lid) {
       const { data: res } = await searchLesson(this.searchRequestBody)
-      console.log(res)
-      this.lessonData = res
+      this.lessonData = res.data
+      this.lessonTotal = res.pageCount
+      console.log('click', this.lessonData)
     },
 
     // 获取课程列表信息
     async getLessonList() {
       const { data: res } = await getLessonList()
       console.log(res)
-      this.lessonData = res
-      console.log(this.lessonData)
+      // 错误
+      if (res.status === 500) {
+        this.$message.error(res.message)
+      }
+      this.lessonData = res.data
+      this.lessonTotal = res.pageCount
+      console.log('init', this.lessonData)
+    },
+
+    // 获取当前学生已选课程
+    async getLessonSelected() {
+      // 获取学生id
+      const stuId = this.$store.state.myInfo.studentDO.stuId
+      const { data: res } = await getLessonSelected(stuId)
+      this.lessonSelected = res
+      console.log('学生已选课程', res)
     },
 
     // 过滤已满课程
-    filterFull(isFull) {
-      if (isFull) {
-        this.lessonData = this.lessonData.filter(value => {
-          return value.remainPeople !== 0
-        })
-        console.log(this.lessonData)
+    filterFull(isFilter) {
+      if (isFilter) {
+        this.searchRequestBody.filter = 1
+        this.searchClick()
       } else {
+        this.searchRequestBody.filter = 0
+        this.searchClick()
+      }
+
+      // if (isFilter) {
+      //   this.lessonData = this.lessonData.filter(value => {
+      //     return value.remainPeople !== 0
+      //   })
+      //   console.log(this.lessonData)
+      // } else {
+      //   this.searchClick()
+      // }
+    },
+
+    // 是否只看专业课
+    onlyMajor(isMajor) {
+      console.log(this.majorId)
+      // 只看专业课
+      if (isMajor) {
+        this.searchRequestBody.majorId = this.majorId
+        this.searchClick()
+      } else {
+        this.searchRequestBody.majorId = ''
         this.searchClick()
       }
     },
-
-    // 格式数据
-    // formatLessonData() {
-    //   this.lessonData.forEach(lesson => {
-    //     lesson.campusName = lesson.campusId ? '广州校区' : '佛山校区'
-    //     lesson.remainshow = lesson.remainPeople + '/' + lesson.totalPeople
-    //     lesson.weekday = '星期 ' + lesson.weekday
-    //     lesson.required = lesson.required ? '必修' : '选修'
-    //   })
-    // },
 
     // 传入星期几，第几节
     formatWeekday(weekday, classes) {
@@ -243,19 +318,66 @@ export default {
         case 5:
           return '星期五，' + '第' + classes + '节'
           break
-        case 6:
-          return '星期六，' + '第' + classes + '节'
-          break
-        case 7:
-          return '星期天，' + '第' + classes + '节'
-          break
         default:
           break
       }
     },
 
     // 选课按钮
-    selectClick() {}
+    async selectClick(lid) {
+      // 获取学生id
+      const stuId = this.$store.state.myInfo.studentDO.stuId
+      // 选课请求
+      const res = await selectLesson(stuId, lid)
+      console.log(res)
+
+      if (res.status === 200) {
+        console.log(11)
+        this.$message.success('选课成功')
+      } else {
+        this.$message.error(res.data.message)
+      }
+
+      if (this.isFilter) {
+        this.isFilter = !this.isFilter
+        this.searchClick()
+        this.isFilter = !this.isFilter
+        this.filterFull(this.isFilter)
+        return
+      }
+      this.searchClick()
+
+      this.reload()
+    },
+
+    //获取课程总数
+    async getLessonCount() {
+      const { data: res } = await getLessonCount()
+      this.lessonTotal = res
+      console.log('课程总数', this.lessonTotal)
+    },
+
+    // 监听一页显示数的改变
+    handleSizeChange(newSize) {
+      this.searchRequestBody.pageSize = newSize
+      this.searchClick()
+    },
+
+    // 监听一页显示数的改变
+    handleCurrentChange(newPage) {
+      this.searchRequestBody.pageIndex = newPage
+      this.searchClick()
+    },
+
+    // 计算是否禁用选课按钮
+    isDisabled(lid) {
+      let res = this.lessonSelected.some(item => {
+        // console.log(item.lid)
+        return item.lid === lid
+      })
+      // console.log('是否禁用', res)
+      return res
+    }
 
     //
   }
@@ -267,6 +389,19 @@ export default {
   overflow: hidden;
   width: 100%;
 }
+
+/* 搜索区域 */
+/* .search-card {
+  position: fixed;
+  width: 100%;
+  z-index: 9;
+} */
+
+/* 课程展示区域 */
+/* .lessons-card {
+  overflow: hidden;
+  margin-top: 130px;
+} */
 
 /* 下拉长度 */
 .el-select {

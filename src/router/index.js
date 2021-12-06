@@ -8,6 +8,7 @@ const Login = () => import('views/login/Login')
 const Selection = () => import('views/selection/Selection')
 const Timetable = () => import('views/myinfo/Timetable')
 const Myinfo = () => import('views/myinfo/Myinfo')
+const Drop = () => import('views/selection/Drop')
 
 
 
@@ -41,7 +42,14 @@ const routes = [
         path: 'selection',
         component: Selection,
         meta: {
-          title: '学生选课'
+          title: '学生选课--通识'
+        }
+      },
+      {
+        path: 'drop',
+        component: Drop,
+        meta: {
+          title: '学生选课--专业课'
         }
       },
       {
@@ -83,7 +91,7 @@ router.beforeEach((to, from, next) => {
   //beforeEach是router的钩子函数，在进入路由前执行
   if (to.meta.title) {
     //判断是否有标题
-    console.log(to.meta.title)
+    // console.log(to.meta.title)
     document.title = to.meta.title
   } else {
     document.title = '学生选课系统'
