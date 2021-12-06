@@ -25,7 +25,8 @@ import {
   Switch,
   Descriptions,
   DescriptionsItem,
-  Tag
+  Tag,
+  Pagination
 } from 'element-ui'
 
 Vue.use(Button)
@@ -53,6 +54,7 @@ Vue.use(Switch)
 Vue.use(Descriptions)
 Vue.use(DescriptionsItem)
 Vue.use(Tag)
+Vue.use(Pagination)
 
 
 Vue.prototype.$message = Message

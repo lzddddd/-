@@ -2,7 +2,7 @@
   <el-container class="home-container">
 
     <!-- 头部 -->
-    <el-header>
+    <el-header class="header">
       <div class="logo" @click="logoClick">
         <img src="~assets/img/home/Liverpool.jpg" alt="">
         <span>学生选课系统</span>
@@ -12,7 +12,7 @@
 
     <el-container>
       <!-- 侧边栏 -->
-      <el-aside :width="isCollapse ? '60px' : '200px'">
+      <el-aside :width="isCollapse ? '60px' : '200px'" class="aside">
 
         <!-- 点击折叠侧边栏 -->
         <div @click="toggleCollapse" class="toggle-button">|||</div>
@@ -25,19 +25,19 @@
               <span>学生选课</span>
             </template>
 
-            <!--通识课--选课  -->
+            <!--选课  -->
             <el-menu-item index="selection" @click="subItemClick(path='selection')">
               <template slot="title">
                 <i class="el-icon-s-custom icon"></i>
-                <span>通识课</span>
+                <span>学生选课</span>
               </template>
             </el-menu-item>
 
-            <!-- 专业课--选课 -->
-            <el-menu-item index="major" @click="subItemClick(path='major')">
+            <!-- 查看已选 -->
+            <el-menu-item index="drop" @click="subItemClick(path='drop')">
               <template slot="title">
                 <i class="el-icon-s-custom icon"></i>
-                <span>专业课</span>
+                <span>已选课程</span>
               </template>
             </el-menu-item>
           </el-submenu>
@@ -70,7 +70,7 @@
       </el-aside>
 
       <!-- 主体 -->
-      <el-main>
+      <el-main :class="{marginTen: isCollapse }">
         <keep-alive>
           <router-view></router-view>
         </keep-alive>
@@ -106,8 +106,8 @@ export default {
 
     // 退出按钮
     logoutClick() {
-      // 清空token
-      window.sessionStorage.clear()
+      // 清空个人信息
+      window.sessionStorage.clear('myInfo')
       // 跳转到登录页
       this.$router.push('/login')
     },
@@ -147,6 +147,12 @@ export default {
 }
 
 /* 头部区域 */
+.header {
+  position: fixed;
+  width: 100%;
+  z-index: 9;
+}
+
 .el-header {
   background-color: #06b799;
   display: flex;
@@ -184,6 +190,14 @@ export default {
 }
 
 /* 侧边栏区域 */
+.aside {
+  position: fixed;
+  width: 240px;
+  height: 100%;
+  z-index: 9;
+  margin-top: 60px;
+}
+
 .el-aside {
   background-color: #333744;
   transition: all 0.5s;
@@ -215,5 +229,12 @@ export default {
 /* 主体部分 */
 .el-main {
   background-color: #eaedf1;
+  margin-top: 60px;
+  margin-left: 200px;
+  transition: 0.5s;
+}
+
+.marginTen {
+  margin-left: 60px;
 }
 </style>

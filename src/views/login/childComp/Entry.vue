@@ -53,6 +53,8 @@
 <script>
 import { loginPost } from 'network/login'
 
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'Entry',
   components: {},
@@ -82,6 +84,8 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setMyInfo']),
+
     // 设置密码是否可见
     eyeClick() {
       this.eye = !this.eye
@@ -105,8 +109,8 @@ export default {
         console.log(res)
 
         // 保存个人信息
-        console.log(res.data)
-        window.sessionStorage.setItem('myInfo', res.data.collegeMajorDO)
+        window.sessionStorage.setItem('myInfo', JSON.stringify(res.data))
+        this.$store.commit('setMyInfo')
 
         if (res.status !== 200) {
           console.log(11)

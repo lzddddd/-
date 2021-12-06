@@ -1,9 +1,9 @@
-import { post } from 'network/post'
-import { post2 } from 'network/post'
+import { request } from 'network/request'
+
 
 
 export function loginPost(account, password) {
-  return post({
+  return request({
     url: '/system/login',
     method: 'post',
     params: {
@@ -16,7 +16,7 @@ export function loginPost(account, password) {
 
 export function loginPost2(loginMsg) {
   console.log(loginMsg);
-  return post({
+  return request({
     url: 'login',
     method: 'post',
     data: {

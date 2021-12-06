@@ -1,5 +1,3 @@
-import { ADD_COUNTER, ADD_TO_CART } from "./mutations-type"
-
 
 export default {
   // Detail.vue  添加购物车，验证是否商品第一次加入购物车
