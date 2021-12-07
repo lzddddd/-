@@ -1,13 +1,7 @@
 <template>
   <div>
     <div class="login-box">
-      <el-form
-        ref="loginFormRef"
-        :model="loginForm"
-        :rules="loginFormRules"
-        label-width="0px"
-        class="loginForm"
-      >
+      <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="loginForm">
         <!-- 头像 -->
         <img src="~assets/img/login/avatar.svg" alt="" class="avatar" />
 
@@ -22,13 +16,7 @@
 
           <div>
             <!-- <h5>用户名/学号</h5> -->
-            <el-input
-              v-model="loginForm.account"
-              placeholder="用户名/学号"
-              type="text"
-              class="input"
-              style="border: 0"
-            ></el-input>
+            <el-input v-model="loginForm.account" placeholder="用户名/学号" type="text" class="input" style="border: 0"></el-input>
           </div>
         </el-form-item>
 
@@ -39,12 +27,7 @@
 
           <div class="pwd">
             <!-- <h5>密码</h5> -->
-            <el-input
-              :type="pwdType"
-              v-model="loginForm.password"
-              id="input"
-              placeholder="密码"
-            ></el-input>
+            <el-input :type="pwdType" v-model="loginForm.password" id="input" placeholder="密码"></el-input>
 
             <!-- 密码可见/不可见--眼睛icon -->
             <div class="eye" @click="eyeClick">
@@ -77,21 +60,21 @@ export default {
       // 表单对象
       loginForm: {
         account: 'lizhendong',
-        password: 'lizhendong',
+        password: 'lizhendong'
       },
       // 表单验证规则
       loginFormRules: {
         account: [
-          { required: true, message: '请输入用户名', trigger: 'change' },
+          { required: true, message: '请输入用户名', trigger: 'change' }
           // { min: 11, max: 11, message: "请输入正确的学号", trigger: "blur" }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
+          { required: true, message: '请输入密码', trigger: 'blur' }
           // { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
-        ],
+        ]
       },
       // 个人信息
-      myInfo: {},
+      myInfo: {}
     }
   },
   methods: {
@@ -108,7 +91,7 @@ export default {
     },
 
     handleLoginIn() {
-      this.$refs.loginFormRef.validate(async (valid) => {
+      this.$refs.loginFormRef.validate(async valid => {
         if (!valid) {
           return this.$message.error('请输出入正确的用户名/密码')
         }
@@ -119,22 +102,18 @@ export default {
         )
         console.log('登录结果', res)
 
-
         // 保存个人信息
         window.sessionStorage.setItem('myInfo', JSON.stringify(res.data))
         this.$store.commit('setMyInfo')
 
-     
-
         if (res.status !== 200) {
-          console.log(11)
-          return this.$message.error('登录失败，输出入正确的用户名/密码')
+          return this.$message.error(res.data.message)
         }
         this.$message.success('登录成功，欢迎！')
         this.$router.push('/home')
       })
-    },
-  },
+    }
+  }
 }
 </script>
 

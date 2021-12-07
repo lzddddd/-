@@ -37,4 +37,6 @@ export default {
 <style>
 @import './assets/css/base.css';
 @import './assets/css/el-global.css';
+@import '//at.alicdn.com/t/font_2992793_mo77rlmn4wk.css';
+/* @import './assets/icon/iconfont.css'; */
 </style>

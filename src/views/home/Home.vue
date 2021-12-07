@@ -21,37 +21,37 @@
           <!-- 学生选课一级菜单 -->
           <el-submenu index="1">
             <template slot="title">
-              <i class="el-icon-s-custom icon"></i>
+              <i class="el-icon-s-custom"></i>
               <span>学生选课</span>
             </template>
 
             <!--选课  -->
             <el-menu-item index="selection" @click="subItemClick(path='selection')">
               <template slot="title">
-                <i class="el-icon-s-custom icon"></i>
+                <i class="iconfont icon-selected icon"></i>
                 <span>学生选课</span>
               </template>
             </el-menu-item>
 
-            <!-- 查看已选 -->
+            <!-- 查看已选 / 退课-->
             <el-menu-item index="drop" @click="subItemClick(path='drop')">
               <template slot="title">
-                <i class="el-icon-s-custom icon"></i>
-                <span>已选课程</span>
+                <i class="iconfont icon-drop icon"></i>
+                <span>退课</span>
               </template>
             </el-menu-item>
           </el-submenu>
 
           <el-submenu index="2">
             <template slot="title">
-              <i class="el-icon-date icon"></i>
+              <i class="el-icon-date"></i>
               <span>个人信息</span>
             </template>
 
             <!-- 查看个人课表 -->
             <el-menu-item index="timetable">
               <template slot="title">
-                <i class="el-icon-date icon"></i>
+                <i class="iconfont icon-timetable icon"></i>
                 <span>个人课表</span>
               </template>
             </el-menu-item>
@@ -59,7 +59,7 @@
             <!-- 查看个人信息 -->
             <el-menu-item index="myinfo">
               <template slot="title">
-                <i class="el-icon-date icon"></i>
+                <i class="iconfont icon-myinfo icon"></i>
                 <span>个人信息</span>
               </template>
             </el-menu-item>
@@ -203,7 +203,7 @@ export default {
   transition: all 0.5s;
 }
 
-// 展开按钮
+// 侧边栏--展开按钮
 .toggle-button {
   background-color: #4a5064;
   line-height: 24px;
@@ -224,6 +224,11 @@ export default {
 
 .active {
   color: #06b799;
+}
+
+// 侧边栏--icon
+.icon {
+  margin-right: 10px;
 }
 
 /* 主体部分 */

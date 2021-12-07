@@ -16,13 +16,11 @@
 
 <script>
 import Entry from './childComp/Entry'
-import EntryTwo from './childComp/Entry2'
 
 export default {
   name: 'Login',
   components: {
-    Entry,
-    EntryTwo
+    Entry
   }
 }
 </script>
