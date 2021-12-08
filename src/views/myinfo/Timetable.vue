@@ -5,10 +5,18 @@
         <img src="~assets/img/avatar/avatar.jpg" alt="" />
       </div>
       <div class="Info">
-        <span style="margin: 10px 10px 10px 10px">用户: {{ userInfo.studentDO.name }}</span>
-        <span style="margin: 10px 10px 10px 10px">学号: {{ userInfo.studentDO.stuId }}</span>
-        <span style="margin: 10px 10px 10px 10px">学院: {{ userInfo.collegeMajorDO.collegeName }}</span>
-        <span style="margin: 10px 10px 10px 10px">专业: {{ userInfo.collegeMajorDO.majorName }}</span>
+        <span style="margin: 10px 10px 10px 10px"
+          >用户: {{ userInfo.studentDO.name }}</span
+        >
+        <span style="margin: 10px 10px 10px 10px"
+          >学号: {{ userInfo.studentDO.stuId }}</span
+        >
+        <span style="margin: 10px 10px 10px 10px"
+          >学院: {{ userInfo.collegeMajorDO.collegeName }}</span
+        >
+        <span style="margin: 10px 10px 10px 10px"
+          >专业: {{ userInfo.collegeMajorDO.majorName }}</span
+        >
       </div>
     </div>
     <div class="table">
@@ -138,7 +146,7 @@ export default {
       class28: {},
       class38: {},
       class48: {},
-      class58: {}
+      class58: {},
     }
   },
 
@@ -147,19 +155,19 @@ export default {
     this.getClassTable(this.stuId)
   },
   methods: {
-    // 获取用户信息
+    // 获取学生信息
     getUserInfo() {
       this.userInfo = JSON.parse(sessionStorage.getItem('myInfo'))
       console.log(this.userInfo)
       this.stuId = this.userInfo.studentDO.stuId
     },
-    // 获取用户课表
+    // 获取学生课表
     getClassTable(stuId) {
-      getPersonTable(stuId).then(res => {
-        console.log('class', res)
+      getPersonTable(stuId).then((res) => {
+        // console.log('class', res)
         this.classData = [...res.data]
-        this.classData.map(item => {
-          console.log('item', item)
+        this.classData.map((item) => {
+          // console.log('item', item)
           if (item.weekday === 1 && item.classes === 1) {
             this.class11 = item
           } else if (item.weekday === 2 && item.classes === 1) {
@@ -249,8 +257,8 @@ export default {
         //   })
         // })
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

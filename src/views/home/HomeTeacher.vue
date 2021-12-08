@@ -4,7 +4,7 @@
     <el-header class="header">
       <div class="logo" @click="logoClick">
         <img src="~assets/img/home/Liverpool.jpg" alt="" />
-        <span>学生选课系统</span>
+        <span>学生选课系统-教师用户</span>
       </div>
       <el-button @click="logoutClick" type="info" class="logoutBtn"
         >退出选课</el-button
@@ -27,55 +27,12 @@
           text-color="#fff"
           active-text-color="#06b799"
         >
-          <!-- 学生选课一级菜单 -->
-          <el-submenu index="1">
+          <el-menu-item index="teacherClass">
             <template slot="title">
-              <i class="el-icon-s-custom"></i>
-              <span>学生选课</span>
+              <i class="iconfont icon-timetable icon"></i>
+              <span>教师课表</span>
             </template>
-
-            <!--选课  -->
-            <el-menu-item
-              index="selection"
-              @click="subItemClick((path = 'selection'))"
-            >
-              <template slot="title">
-                <i class="iconfont icon-selected icon"></i>
-                <span>学生选课</span>
-              </template>
-            </el-menu-item>
-
-            <!-- 查看已选 / 退课-->
-            <el-menu-item index="drop" @click="subItemClick((path = 'drop'))">
-              <template slot="title">
-                <i class="iconfont icon-drop icon"></i>
-                <span>退课</span>
-              </template>
-            </el-menu-item>
-          </el-submenu>
-
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-date"></i>
-              <span>个人信息</span>
-            </template>
-
-            <!-- 查看个人课表 -->
-            <el-menu-item index="timetable">
-              <template slot="title">
-                <i class="iconfont icon-timetable icon"></i>
-                <span>个人课表</span>
-              </template>
-            </el-menu-item>
-
-            <!-- 查看个人信息 -->
-            <el-menu-item index="myinfo">
-              <template slot="title">
-                <i class="iconfont icon-myinfo icon"></i>
-                <span>个人信息</span>
-              </template>
-            </el-menu-item>
-          </el-submenu>
+          </el-menu-item>
         </el-menu>
       </el-aside>
 
@@ -91,25 +48,19 @@
 
 <script>
 export default {
-  name: 'Home',
+  name: '',
   data() {
     return {
       // 是否折叠侧边栏
       isCollapse: false,
-      // 激活的侧边栏链接
       activePath: '',
     }
-  },
-  created() {
-    this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
     // 点击跳转
     logoClick() {
-      this.$router.push('/home')
-      this.selectionClick()
+      this.$router.push('/HomeTeacher')
     },
-
     // 退出按钮
     logoutClick() {
       // 清空个人信息
@@ -118,37 +69,15 @@ export default {
       this.$router.push('/login')
       this.$message.success('退出登录成功')
     },
-
     // 折叠按钮
     toggleCollapse() {
       this.isCollapse = !this.isCollapse
     },
-
-    // 左侧菜单点击事件
-    // 保存激活的菜单路径
-    subItemClick(activePath) {
-      window.sessionStorage.setItem('activePath', activePath)
-      this.activePath = activePath
-    },
-
-    // // 侧边栏--学生选课
-    // selectionClick() {
-    //   // console.log('11')
-    //   this.$router.push('selection')
-    //   this.currentIndex = 1
-    // },
-
-    // // 侧边栏--个人课表
-    // timetableClick() {
-    //   // console.log('22')
-    //   this.$router.push('timetable')
-    //   this.currentIndex = 2
-    // }
   },
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 .home-container {
   height: 100%;
 }
@@ -159,16 +88,19 @@ export default {
   width: 100%;
   z-index: 9;
 }
-
 .el-header {
   background-color: #06b799;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  > div {
+  /* > div {
     display: flex;
     align-items: center;
-  }
+  } */
+}
+.el-header div {
+  display: flex;
+  align-items: center;
 }
 
 .el-header .logo {
@@ -210,7 +142,7 @@ export default {
   transition: all 0.5s;
 }
 
-// 侧边栏--展开按钮
+/* 侧边栏--展开按钮 */
 .toggle-button {
   background-color: #4a5064;
   line-height: 24px;
@@ -233,7 +165,7 @@ export default {
   color: #06b799;
 }
 
-// 侧边栏--icon
+/* 侧边栏--icon */
 .icon {
   margin-right: 10px;
 }

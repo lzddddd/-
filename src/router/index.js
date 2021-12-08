@@ -9,6 +9,8 @@ const Selection = () => import('views/selection/Selection')
 const Timetable = () => import('views/myinfo/Timetable')
 const Myinfo = () => import('views/myinfo/Myinfo')
 const Drop = () => import('views/selection/Drop')
+const HomeTeacher = () => import('views/home/HomeTeacher')
+const teacherClass = () =>import('views/teacherClass/teacherClass')
 
 
 
@@ -26,6 +28,27 @@ const routes = [
     meta: {
       title: '登录'
     }
+  },
+  {
+    path: '/HomeTeacher',
+    name: 'HomeTeacher',
+    component: HomeTeacher,
+    meta: {
+      title: '首页'
+    },
+    children: [
+      {
+        path: '/',
+        redirect: 'teacherClass'
+      },
+      {
+        path: 'teacherClass',
+        component: teacherClass,
+        meta: {
+          title: '教师课表'
+        }
+      }
+    ]
   },
   {
     path: '/home',
