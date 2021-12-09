@@ -5,22 +5,22 @@
         <el-descriptions title="用户信息" :column="2" border>
           <el-descriptions-item label="用户">{{
             userInfo.teacherDO.name
-          }}</el-descriptions-item>
+            }}</el-descriptions-item>
           <el-descriptions-item label="教工号">{{
             userInfo.teacherDO.tid
-          }}</el-descriptions-item>
+            }}</el-descriptions-item>
           <el-descriptions-item label="帐号">{{
             userInfo.userDO.account
-          }}</el-descriptions-item>
+            }}</el-descriptions-item>
           <el-descriptions-item label="电子邮箱">{{
             userInfo.userDO.email
-          }}</el-descriptions-item>
+            }}</el-descriptions-item>
           <el-descriptions-item label="电话">{{
             userInfo.userDO.phone
-          }}</el-descriptions-item>
+            }}</el-descriptions-item>
           <el-descriptions-item label="入职年份">{{
             userInfo.userDO.year
-          }}</el-descriptions-item>
+            }}</el-descriptions-item>
           <!-- <el-descriptions-item label="学院">{{
             userInfo.collegeMajorDO.collegeName
           }}</el-descriptions-item>
@@ -43,9 +43,7 @@
         <el-table-column prop="totalPeople" label="已选人数" align="center" />
         <el-table-column prop="totalPeople" label="操作" align="center">
           <template slot-scope="scope">
-            <el-button type="primary" @click="close(scope.row.lid)"
-              >手动关班</el-button
-            >
+            <el-button type="primary" @click="close(scope.row.lid)">手动关班</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -66,9 +64,9 @@ export default {
         {
           lid: '1511',
           name: 'java',
-          weekday: '3',
-        },
-      ],
+          weekday: '3'
+        }
+      ]
     }
   },
   created() {
@@ -77,20 +75,36 @@ export default {
   },
   methods: {
     // 手动关班
-    close(lid) {
+    async close(lid) {
+      // 弹框提示用户
+      const confirmResult = await this.$confirm('确定关班?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+
+      // 如果确认，则返回字符串 “confirm”
+      // 如果取消，则返回字符串 cancel
+      console.log(confirmResult)
+
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消操作')
+      }
       this.closeClassByhand(lid, this.teacherId)
     },
+
     // 获取个人信息
     getMyInfo() {
       this.userInfo = JSON.parse(sessionStorage.getItem('myInfo'))
       this.teacherId = this.userInfo.teacherDO.tid
     },
+
     // 获取老师课表
     getClassData(teacherId) {
-      getTeacherClass(teacherId).then((res) => {
+      getTeacherClass(teacherId).then(res => {
         this.classList = res.data
         console.log('Class', this.classList)
-        this.classList.map((item) => {
+        this.classList.map(item => {
           if (item.weekday === 1) {
             item.weekday = '周一'
           } else if (item.weekday === 2) {
@@ -129,15 +143,15 @@ export default {
     },
     // 手动关班
     closeClassByhand(lessonId, teacherId) {
-      closeClass(lessonId, teacherId).then((res) => {
+      closeClass(lessonId, teacherId).then(res => {
         console.log('关班回调', res)
         if (res.data === 'SUCCESS') {
           this.$message.success('手动关班成功！')
         }
         this.$router.go(0)
       })
-    },
-  },
+    }
+  }
 }
 </script>
 

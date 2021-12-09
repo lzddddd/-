@@ -10,7 +10,7 @@ const Timetable = () => import('views/myinfo/Timetable')
 const Myinfo = () => import('views/myinfo/Myinfo')
 const Drop = () => import('views/selection/Drop')
 const HomeTeacher = () => import('views/home/HomeTeacher')
-const teacherClass = () =>import('views/teacherClass/teacherClass')
+const teacherClass = () => import('views/teacherClass/teacherClass')
 
 
 
@@ -65,14 +65,14 @@ const routes = [
         path: 'selection',
         component: Selection,
         meta: {
-          title: '学生选课--通识'
+          title: '学生选课'
         }
       },
       {
         path: 'drop',
         component: Drop,
         meta: {
-          title: '学生选课--专业课'
+          title: '学生退课'
         }
       },
       {

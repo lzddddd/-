@@ -44,13 +44,13 @@
         <!-- 课程名称 -->
         <el-col :span="6">
           课程名称：
-          <el-input v-model="searchRequestBody.lessonName" placeholder="请输入内容" autocomplete></el-input>
+          <el-input v-model="searchRequestBody.lessonName" placeholder="请输入内容" clearable></el-input>
         </el-col>
 
         <!-- 老师名称 -->
         <el-col :span="6">
           教师姓名：
-          <el-input v-model="searchRequestBody.teacherName" placeholder="请输入内容"></el-input>
+          <el-input v-model="searchRequestBody.teacherName" placeholder="请输入内容" clearable></el-input>
         </el-col>
       </el-row>
 
@@ -74,13 +74,14 @@
 
         <!-- 查询按钮 -->
         <el-col :span="6">
-          <el-button @click="searchClick()" type="primary" size="medium">查询</el-button>
+          <el-button @click="getLessonList()" type="primary" size="medium">查询</el-button>
         </el-col>
 
       </el-row>
     </el-card>
 
     <!-- 课程数据视图区域 -->
+
     <el-card class="lessons-card">
 
       <!-- 课程数据 -->
@@ -145,7 +146,6 @@
 
 <script>
 import {
-  searchLesson,
   getLessonList,
   selectLesson,
   getLessonCount,
@@ -161,8 +161,8 @@ export default {
       isFilter: false,
       // 是否只看专业课
       isMajor: false,
-      // 禁用选课按钮
-      // isDisabled: false,
+      // 选课弹窗是否可见
+      selectDialogVisible: false,
       // 课程数据
       lessonData: [
         // 测试数据
@@ -237,26 +237,19 @@ export default {
 
   mounted() {},
   methods: {
-    // 查询课程
-    async searchClick(lid) {
-      const { data: res } = await searchLesson(this.searchRequestBody)
+    // 查询课程 /  获取课程列表信息
+    async getLessonList() {
+      const { data: res } = await getLessonList(this.searchRequestBody)
+      // 错误
+      if (res.status === 500) {
+        return this.$message.error(res.message)
+      }
+      console.log('查询课程结果', res)
       this.lessonData = res.data
       this.lessonTotal = res.pageCount
       console.log('click', this.lessonData)
     },
 
-    // 获取课程列表信息
-    async getLessonList() {
-      const { data: res } = await getLessonList()
-      console.log(res)
-      // 错误
-      if (res.status === 500) {
-        this.$message.error(res.message)
-      }
-      this.lessonData = res.data
-      this.lessonTotal = res.pageCount
-      console.log('init', this.lessonData)
-    },
 
     // 获取当前学生已选课程
     async getLessonSelected() {
@@ -271,10 +264,11 @@ export default {
     filterFull(isFilter) {
       if (isFilter) {
         this.searchRequestBody.filter = 1
-        this.searchClick()
+        // 重新获取列表
+        this.getLessonList()
       } else {
         this.searchRequestBody.filter = 0
-        this.searchClick()
+        this.getLessonList()
       }
 
       // if (isFilter) {
@@ -293,10 +287,10 @@ export default {
       // 只看专业课
       if (isMajor) {
         this.searchRequestBody.majorId = this.majorId
-        this.searchClick()
+        this.getLessonList()
       } else {
         this.searchRequestBody.majorId = ''
-        this.searchClick()
+        this.getLessonList()
       }
     },
 
@@ -325,6 +319,21 @@ export default {
 
     // 选课按钮
     async selectClick(lid) {
+      // 弹框提示用户
+      const confirmResult = await this.$confirm('确定选这节课?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+
+      // 如果确认，则返回字符串 “confirm”
+      // 如果取消，则返回字符串 cancel
+      console.log(confirmResult)
+
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消选课')
+      }
+
       // 获取学生id
       const stuId = this.$store.state.myInfo.studentDO.stuId
       // 选课请求
@@ -332,21 +341,11 @@ export default {
       console.log(res)
 
       if (res.status === 200) {
-        console.log(11)
         this.$message.success('选课成功')
         this.reload()
       } else {
-        this.$message.error(res.data.message)
+        return this.$message.error(res.data.message)
       }
-
-      if (this.isFilter) {
-        this.isFilter = !this.isFilter
-        this.searchClick()
-        this.isFilter = !this.isFilter
-        this.filterFull(this.isFilter)
-        return
-      }
-      this.searchClick()
     },
 
     //获取课程总数
@@ -359,13 +358,13 @@ export default {
     // 监听一页显示数的改变
     handleSizeChange(newSize) {
       this.searchRequestBody.pageSize = newSize
-      this.searchClick()
+      this.getLessonList()
     },
 
     // 监听一页显示数的改变
     handleCurrentChange(newPage) {
       this.searchRequestBody.pageIndex = newPage
-      this.searchClick()
+      this.getLessonList()
     },
 
     // 计算是否禁用选课按钮
@@ -377,8 +376,6 @@ export default {
       // console.log('是否禁用', res)
       return res
     }
-
-    //
   }
 }
 </script>

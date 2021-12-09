@@ -1,7 +1,7 @@
 import { request } from 'network/request'
 
 // 查询课程
-export function searchLesson(requestBody) {
+export function getLessonList(requestBody) {
 
   return request({
     url: '/lesson/list',
@@ -16,17 +16,6 @@ export function searchLesson(requestBody) {
       lessonName: requestBody.lessonName,
       teacherName: requestBody.teacherName,
       weekday: requestBody.weekday,
-    }
-  })
-}
-
-// 获取课程列表
-export function getLessonList() {
-  return request({
-    url: '/lesson/list',
-    method: 'post',
-    contentType: 'application/json',
-    data: {
     }
   })
 }

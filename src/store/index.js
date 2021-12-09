@@ -8,7 +8,7 @@ import actions from './actions'
 Vue.use(Vuex)
 
 const state = {
-  // myInfo: sessionStorage.getItem('myInfo') ? sessionStorage.getItem('myInfo') : ''
+  myInfo: {}
 }
 
 export default new Vuex.Store({

@@ -26,7 +26,8 @@ import {
   Descriptions,
   DescriptionsItem,
   Tag,
-  Pagination
+  Pagination,
+  MessageBox
 } from 'element-ui'
 
 Vue.use(Button)
@@ -58,4 +59,5 @@ Vue.use(Pagination)
 
 
 Vue.prototype.$message = Message
+Vue.prototype.$confirm = MessageBox.confirm
 

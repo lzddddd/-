@@ -1,13 +1,7 @@
 <template>
   <div>
     <div class="login-box">
-      <el-form
-        ref="loginFormRef"
-        :model="loginFormStudent"
-        :rules="loginFormRules"
-        label-width="0px"
-        class="loginForm"
-      >
+      <el-form ref="loginFormRef" :model="loginFormStudent" :rules="loginFormRules" label-width="0px" class="loginForm">
         <!-- 头像 -->
         <img src="~assets/img/login/avatar.svg" alt="" class="avatar" />
 
@@ -15,14 +9,12 @@
         <h2 class="title">学生选课系统</h2>
         <!--切换用户-->
         <div class="typeButton">
-          <el-button class="btnType" @click="visible = true"
-            >学生用户</el-button
-          >
-          <el-button class="btnType" @click="visible = false"
-            >教师用户</el-button
-          >
+          <el-button autofocus class="btnType" @click="visible = true">学生用户</el-button>
+          <el-button class="btnType" @click="visible = false">教师用户</el-button>
         </div>
+
         <!-- 输入区域 -->
+
         <!--学生登录-->
         <div v-if="visible" class="inputStudent">
           <el-form-item prop="account" class="input-group">
@@ -32,13 +24,7 @@
 
             <div>
               <!-- <h5>用户名/学号</h5> -->
-              <el-input
-                v-model="loginFormStudent.account"
-                placeholder="用户名/学号"
-                type="text"
-                class="input"
-                style="border: 0"
-              ></el-input>
+              <el-input v-model="loginFormStudent.account" placeholder="用户名/学号" type="text" class="input" style="border: 0"></el-input>
             </div>
           </el-form-item>
 
@@ -49,12 +35,7 @@
 
             <div class="pwd">
               <!-- <h5>密码</h5> -->
-              <el-input
-                :type="pwdType"
-                v-model="loginFormStudent.password"
-                id="input"
-                placeholder="密码"
-              ></el-input>
+              <el-input :type="pwdType" v-model="loginFormStudent.password" id="input" placeholder="密码"></el-input>
 
               <!-- 密码可见/不可见--眼睛icon -->
               <div class="eye" @click="eyeClick">
@@ -76,13 +57,7 @@
 
             <div>
               <!-- <h5>用户名/教工号</h5> -->
-              <el-input
-                v-model="loginFormTeacher.account"
-                placeholder="用户名/教工号"
-                type="text"
-                class="input"
-                style="border: 0"
-              ></el-input>
+              <el-input v-model="loginFormTeacher.account" placeholder="用户名/教工号" type="text" class="input" style="border: 0"></el-input>
             </div>
           </el-form-item>
 
@@ -93,12 +68,7 @@
 
             <div class="pwd">
               <!-- <h5>密码</h5> -->
-              <el-input
-                :type="pwdType"
-                v-model="loginFormTeacher.password"
-                id="input"
-                placeholder="密码"
-              ></el-input>
+              <el-input :type="pwdType" v-model="loginFormTeacher.password" id="input" placeholder="密码"></el-input>
 
               <!-- 密码可见/不可见--眼睛icon -->
               <div class="eye" @click="eyeClick">
@@ -131,26 +101,26 @@ export default {
       // 表单对象
       loginFormStudent: {
         account: 'lizhendong',
-        password: 'lizhendong',
+        password: 'lizhendong'
       },
       loginFormTeacher: {
         account: 'teachera',
-        password: 'teachera',
+        password: 'teachera'
       },
       // 表单验证规则
       loginFormRules: {
         account: [
-          { required: true, message: '请输入用户名', trigger: 'change' },
+          { required: true, message: '请输入用户名', trigger: 'change' }
           // { min: 11, max: 11, message: "请输入正确的学号", trigger: "blur" }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
+          { required: true, message: '请输入密码', trigger: 'blur' }
           // { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
-        ],
+        ]
       },
       // 个人信息
       myInfo: {},
-      visible: true,
+      visible: true
     }
   },
   methods: {
@@ -165,8 +135,10 @@ export default {
         this.pwdType = 'password'
       }
     },
+
+    // 教师用户提交登录
     handleLoginInTeacher() {
-      this.$refs.loginFormRef.validate(async (valid) => {
+      this.$refs.loginFormRef.validate(async valid => {
         if (!valid) {
           return this.$message.error('请输出入正确的用户名/密码')
         }
@@ -177,19 +149,24 @@ export default {
         )
         console.log('登录结果', res)
 
+        // 登陆失败
+        if (res.status !== 200) {
+          return this.$message.error(res.data.message)
+        }
+
+        // 成功
         // 保存个人信息
         window.sessionStorage.setItem('myInfo', JSON.stringify(res.data))
         this.$store.commit('setMyInfo')
 
-        if (res.status !== 200) {
-          return this.$message.error(res.data.message)
-        }
         this.$message.success('登录成功，欢迎！')
         this.$router.push('/HomeTeacher')
       })
     },
+
+    // 学生--提交登录
     handleLoginInStudent() {
-      this.$refs.loginFormRef.validate(async (valid) => {
+      this.$refs.loginFormRef.validate(async valid => {
         if (!valid) {
           return this.$message.error('请输出入正确的用户名/密码')
         }
@@ -200,18 +177,19 @@ export default {
         )
         console.log('登录结果', res)
 
+        if (res.status !== 200) {
+          return this.$message.error(res.data.message)
+        }
+
         // 保存个人信息
         window.sessionStorage.setItem('myInfo', JSON.stringify(res.data))
         this.$store.commit('setMyInfo')
 
-        if (res.status !== 200) {
-          return this.$message.error(res.data.message)
-        }
         this.$message.success('登录成功，欢迎！')
         this.$router.push('/home')
       })
-    },
-  },
+    }
+  }
 }
 </script>
 
