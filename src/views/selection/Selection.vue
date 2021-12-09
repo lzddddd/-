@@ -238,7 +238,10 @@ export default {
   mounted() {},
   methods: {
     // 查询课程 /  获取课程列表信息
-    async getLessonList() {
+    async getLessonList(pageIndex = 1) {
+      console.log('pageIndex', pageIndex)
+      // 查询后回到第一页
+      this.searchRequestBody.pageIndex = pageIndex
       const { data: res } = await getLessonList(this.searchRequestBody)
       // 错误
       if (res.status === 500) {
@@ -249,7 +252,6 @@ export default {
       this.lessonTotal = res.pageCount
       console.log('click', this.lessonData)
     },
-
 
     // 获取当前学生已选课程
     async getLessonSelected() {
@@ -361,10 +363,10 @@ export default {
       this.getLessonList()
     },
 
-    // 监听一页显示数的改变
+    // 监听当前页码的改变
     handleCurrentChange(newPage) {
-      this.searchRequestBody.pageIndex = newPage
-      this.getLessonList()
+      // this.searchRequestBody.pageIndex = newPage
+      this.getLessonList(newPage)
     },
 
     // 计算是否禁用选课按钮

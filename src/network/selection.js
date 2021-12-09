@@ -2,7 +2,7 @@ import { request } from 'network/request'
 
 // 查询课程
 export function getLessonList(requestBody) {
-
+  console.log('查询体', requestBody);
   return request({
     url: '/lesson/list',
     method: 'post',
