@@ -3,15 +3,16 @@ function resolve(dir) {
   return path.join(__dirname, dir)  //path.join(__dirname)设置绝对路径
 }
 module.exports = {
+  publicPath: './',
   chainWebpack: (config) => {
     config.resolve.alias
       //set第一个参数：设置的别名，第二个参数：设置的路径
-      .set('assets', resolve('src/assets'))
-      .set('common', resolve('src/common'))
-      .set('components', resolve('src/components'))
-      .set('network', resolve('src/network'))
-      .set('store', resolve('src/store'))
-      .set('views', resolve('src/views'))
+      .set('assets', resolve('./src/assets'))
+      .set('common', resolve('./src/common'))
+      .set('components', resolve('./src/components'))
+      .set('network', resolve('./src/network'))
+      .set('store', resolve('./src/store'))
+      .set('views', resolve('./src/views'))
   },
 
   // 由于浏览器有跨域限制,这里cli 工具提供了 启动本地代理服务器 请求
@@ -38,6 +39,6 @@ module.exports = {
 
     },
 
-  }
+  },
 }
 

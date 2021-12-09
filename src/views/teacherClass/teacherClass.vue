@@ -55,20 +55,13 @@
 
 <script>
 import { getTeacherClass, closeClass } from 'network/teacher'
+
 export default {
-  name: '',
   data() {
     return {
       userInfo: {},
       teacherId: '',
       classList: [],
-      classListtest: [
-        {
-          lid: '1511',
-          name: 'java',
-          weekday: '3',
-        },
-      ],
     }
   },
   created() {
