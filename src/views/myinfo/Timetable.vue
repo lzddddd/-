@@ -5,7 +5,23 @@
         <img src="~assets/img/avatar/avatar.jpg" alt="" />
       </div>
       <div class="Info">
-        <span style="margin: 10px 10px 10px 10px"
+        <el-card>
+          <el-descriptions title="用户信息" :column="2" border>
+            <el-descriptions-item label="用户">{{
+              userInfo.studentDO.name
+            }}</el-descriptions-item>
+            <el-descriptions-item label="学号">{{
+              userInfo.studentDO.stuId
+            }}</el-descriptions-item>
+            <el-descriptions-item label="学院">{{
+              userInfo.collegeMajorDO.collegeName
+            }}</el-descriptions-item>
+            <el-descriptions-item label="专业">{{
+              userInfo.collegeMajorDO.majorName
+            }}</el-descriptions-item>
+          </el-descriptions>
+        </el-card>
+        <!-- <span style="margin: 10px 10px 10px 10px"
           >用户: {{ userInfo.studentDO.name }}</span
         >
         <span style="margin: 10px 10px 10px 10px"
@@ -16,7 +32,7 @@
         >
         <span style="margin: 10px 10px 10px 10px"
           >专业: {{ userInfo.collegeMajorDO.majorName }}</span
-        >
+        > -->
       </div>
     </div>
     <div class="table">
@@ -266,6 +282,7 @@ export default {
 .userInfo {
   display: flex;
   flex-direction: row;
+  margin-left: 100px;
 }
 .userInfo .Info {
   display: flex;

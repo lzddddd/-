@@ -1,8 +1,36 @@
 <template>
   <div class="container">
     <div class="infoContent">
-      <div class="info">姓名: {{ userInfo.teacherDO.name }}</div>
-      <div class="info">教师ID: {{ userInfo.teacherDO.tid }}</div>
+      <el-card>
+        <el-descriptions title="用户信息" :column="2" border>
+          <el-descriptions-item label="用户">{{
+            userInfo.teacherDO.name
+          }}</el-descriptions-item>
+          <el-descriptions-item label="教工号">{{
+            userInfo.teacherDO.tid
+          }}</el-descriptions-item>
+          <el-descriptions-item label="帐号">{{
+            userInfo.userDO.account
+          }}</el-descriptions-item>
+          <el-descriptions-item label="电子邮箱">{{
+            userInfo.userDO.email
+          }}</el-descriptions-item>
+          <el-descriptions-item label="电话">{{
+            userInfo.userDO.phone
+          }}</el-descriptions-item>
+          <el-descriptions-item label="入职年份">{{
+            userInfo.userDO.year
+          }}</el-descriptions-item>
+          <!-- <el-descriptions-item label="学院">{{
+            userInfo.collegeMajorDO.collegeName
+          }}</el-descriptions-item>
+          <el-descriptions-item label="专业">{{
+            userInfo.collegeMajorDO.majorName
+          }}</el-descriptions-item> -->
+        </el-descriptions>
+      </el-card>
+      <!-- <div class="info">姓名: {{ userInfo.teacherDO.name }}</div>
+      <div class="info">教师ID: {{ userInfo.teacherDO.tid }}</div> -->
     </div>
     <div class="table">
       <el-table border :data="classList">
