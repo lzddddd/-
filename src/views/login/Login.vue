@@ -21,6 +21,18 @@ export default {
   name: 'Login',
   components: {
     Entry
+  },
+  created() {
+    // 禁止右键菜单
+    this.preventRightClick()
+  },
+  methods: {
+    // 禁止右键菜单
+    preventRightClick() {
+      document.oncontextmenu = function(e) {
+        e.preventDefault()
+      }
+    }
   }
 }
 </script>
@@ -67,6 +79,6 @@ body {
 }
 
 .input-box {
-  margin-top: 20%;
+  margin-top: 15%;
 }
 </style>

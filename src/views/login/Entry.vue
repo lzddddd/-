@@ -1,88 +1,79 @@
 <template>
-  <div>
-    <div class="login-box">
-      <el-form ref="loginFormRef" :model="loginFormStudent" :rules="loginFormRules" label-width="0px" class="loginForm">
-        <!-- 头像 -->
-        <img src="~assets/img/login/avatar.svg" alt="" class="avatar" />
 
-        <!-- 标题 -->
-        <h2 class="title">学生选课系统</h2>
-        <!--切换用户-->
-        <div class="typeButton">
-          <el-button autofocus class="btnType" @click="visible = true">学生用户</el-button>
-          <el-button class="btnType" @click="visible = false">教师用户</el-button>
-        </div>
+  <div class="login-box">
 
-        <!-- 输入区域 -->
-
-        <!--学生登录-->
-        <div v-if="visible" class="inputStudent">
-          <el-form-item prop="account" class="input-group">
-            <div class="icon">
-              <img src="~assets/img/login/user.svg" alt="" />
-            </div>
-
-            <div>
-              <!-- <h5>用户名/学号</h5> -->
-              <el-input v-model="loginFormStudent.account" placeholder="用户名/学号" type="text" class="input" style="border: 0"></el-input>
-            </div>
-          </el-form-item>
-
-          <el-form-item prop="password" class="input-group" prefix>
-            <div class="icon">
-              <img src="~assets/img/login/pwd.svg" alt="" />
-            </div>
-
-            <div class="pwd">
-              <!-- <h5>密码</h5> -->
-              <el-input :type="pwdType" v-model="loginFormStudent.password" id="input" placeholder="密码"></el-input>
-
-              <!-- 密码可见/不可见--眼睛icon -->
-              <div class="eye" @click="eyeClick">
-                <img src="~assets/img/login/visible.svg" alt="" v-if="eye" />
-                <img src="~assets/img/login/invisible.svg" alt="" v-else />
-              </div>
-            </div>
-            <!-- 登录按钮 -->
-            <div @click="handleLoginInStudent" class="btn">登录</div>
-          </el-form-item>
-        </div>
-
-        <!--教师用户-->
-        <div v-else class="inputTeacher">
-          <el-form-item prop="account" class="input-group">
-            <div class="icon">
-              <img src="~assets/img/login/user.svg" alt="" />
-            </div>
-
-            <div>
-              <!-- <h5>用户名/教工号</h5> -->
-              <el-input v-model="loginFormTeacher.account" placeholder="用户名/教工号" type="text" class="input" style="border: 0"></el-input>
-            </div>
-          </el-form-item>
-
-          <el-form-item prop="password" class="input-group" prefix>
-            <div class="icon">
-              <img src="~assets/img/login/pwd.svg" alt="" />
-            </div>
-
-            <div class="pwd">
-              <!-- <h5>密码</h5> -->
-              <el-input :type="pwdType" v-model="loginFormTeacher.password" id="input" placeholder="密码"></el-input>
-
-              <!-- 密码可见/不可见--眼睛icon -->
-              <div class="eye" @click="eyeClick">
-                <img src="~assets/img/login/visible.svg" alt="" v-if="eye" />
-                <img src="~assets/img/login/invisible.svg" alt="" v-else />
-              </div>
-            </div>
-            <!-- 登录按钮 -->
-            <div @click="handleLoginInTeacher" class="btn">登录</div>
-          </el-form-item>
-        </div>
-      </el-form>
+    <!-- 头像 -->
+    <img src="~assets/img/login/avatar.svg" alt="" class="avatar" />
+    <!-- 标题 -->
+    <h2 class="title">学生选课系统</h2>
+    <!--切换用户-->
+    <div class="typeButton">
+      <el-button autofocus class="btnType" @click="visible = true" plain>学生用户</el-button>
+      <el-button class="btnType" @click="visible = false" plain>教师用户</el-button>
     </div>
+
+    <!-- 输入区域 -->
+    <!--学生登录-->
+    <el-form v-if="visible" ref="loginFormRef" :model="loginFormStudent" :rules="StuloginFormRules" label-width="0px" class="loginForm">
+      <el-form-item prop="account" class="input-group">
+        <div class="icon">
+          <img src="~assets/img/login/user.svg" alt="" />
+        </div>
+
+        <!-- <h5>用户名/学号</h5> -->
+        <el-input clearable v-model="loginFormStudent.account" placeholder="用户名/学号" type="text" class="input" style="border: 0"></el-input>
+      </el-form-item>
+
+      <el-form-item prop="password" class="input-group" prefix>
+        <div class="icon">
+          <img src="~assets/img/login/pwd.svg" alt="" />
+        </div>
+
+        <!-- <h5>密码</h5> -->
+        <el-input clearable :type="pwdType" v-model="loginFormStudent.password" id="input" placeholder="密码"></el-input>
+
+        <!-- 密码可见/不可见--眼睛icon -->
+        <div class="eye" @click="eyeClick">
+          <img src="~assets/img/login/visible.svg" alt="" v-if="eye" />
+          <img src="~assets/img/login/invisible.svg" alt="" v-else />
+
+        </div>
+
+      </el-form-item>
+      <!-- 登录按钮 -->
+      <div @click="handleLoginInStudent" class="btn">登录</div>
+
+    </el-form>
+
+    <!--教师用户-->
+    <el-form v-else ref="loginFormRef" :model="loginFormTeacher" :rules="TealoginFormRules" label-width="0px" class="loginForm">
+
+      <el-form-item prop="account" class="input-group">
+        <div class="icon"><img src="~assets/img/login/user.svg" /></div>
+        <!-- <h5>用户名/教工号</h5> -->
+        <el-input clearable v-model="loginFormTeacher.account" placeholder="用户名/教工号" type="text" class="input" style="border: 0"></el-input>
+      </el-form-item>
+
+      <!-- <h5>密码</h5> -->
+      <el-form-item prop="password" class="input-group" prefix>
+        <div class="icon">
+          <img src="~assets/img/login/pwd.svg" alt="" />
+        </div>
+        <el-input clearable :type="pwdType" v-model="loginFormTeacher.password" id="input" placeholder="密码"></el-input>
+
+        <!-- 密码可见/不可见--眼睛icon -->
+        <div class="eye" @click="eyeClick">
+          <img src="~assets/img/login/visible.svg" alt="" v-if="eye" />
+          <img src="~assets/img/login/invisible.svg" alt="" v-else />
+        </div>
+      </el-form-item>
+
+      <!-- 登录按钮 -->
+      <div @click="handleLoginInTeacher" class="btn">登录</div>
+    </el-form>
+
   </div>
+
 </template>
 
 <script>
@@ -107,19 +98,29 @@ export default {
         account: 'teachera',
         password: 'teachera'
       },
-      // 表单验证规则
-      loginFormRules: {
+      // 学生表单验证规则
+      StuloginFormRules: {
         account: [
-          { required: true, message: '请输入用户名', trigger: 'change' }
+          { required: true, message: '请输入（学生）用户名', trigger: 'change' }
           // { min: 11, max: 11, message: "请输入正确的学号", trigger: "blur" }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' }
-          // { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
+          { required: true, message: '请（学生）输入密码', trigger: 'change' }
+        ]
+      },
+      // 教师表单验证规则
+
+      TealoginFormRules: {
+        account: [
+          { required: true, message: '请输入（教师）用户名', trigger: 'change' }
+        ],
+        password: [
+          { required: true, message: '请输入（教师）密码', trigger: 'change' }
         ]
       },
       // 个人信息
       myInfo: {},
+      // 切换学生教师表单
       visible: true
     }
   },
@@ -140,7 +141,7 @@ export default {
     handleLoginInTeacher() {
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) {
-          return this.$message.error('请输出入正确的用户名/密码')
+          return this.$message.error('请输出入正确的（教师）用户名/密码')
         }
 
         const res = await loginPost(
@@ -168,7 +169,7 @@ export default {
     handleLoginInStudent() {
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) {
-          return this.$message.error('请输出入正确的用户名/密码')
+          return this.$message.error('请输出入正确的（学生）用户名/密码')
         }
 
         const res = await loginPost(
@@ -194,9 +195,12 @@ export default {
 </script>
 
 <style scoped>
+/* 切换用户按钮 */
+
 .login-box {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   text-align: center;
 }
 
@@ -206,6 +210,7 @@ export default {
 
 /* 头像 */
 .avatar {
+  margin-left: 130px;
   width: 100px;
   height: 100px;
 }
@@ -213,6 +218,7 @@ export default {
 .title {
   font-size: 2.9rem;
   margin: 35px 0;
+  margin-left: 42px;
   color: #999;
 }
 
@@ -222,7 +228,6 @@ export default {
   grid-template-columns: 7% 93%;
   margin: 25px 0;
   padding: 0 10px;
-  /* border-bottom: 2px solid #d9d9d9; */
 }
 
 .input-group:nth-child(1) {
@@ -264,14 +269,10 @@ input {
 
 /* 密码--眼睛可见/不可见 */
 
-.pwd {
-  position: relative;
-}
-
 .eye {
   position: absolute;
-  top: 12px;
-  right: 10px;
+  top: 10px;
+  right: 30px;
   cursor: pointer;
 }
 
@@ -300,6 +301,7 @@ a:hover {
   line-height: 50px;
   border-radius: 25px;
   margin: 1rem auto;
+  margin-top: 38px;
   font-size: 1.2rem;
   background-size: 200%;
   background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
@@ -313,38 +315,5 @@ a:hover {
 }
 .btn:hover {
   background-position: right;
-}
-
-/*媒体查询*/
-@media screen and (max-width: 1080px) {
-  .container {
-    grid-gap: 9rem;
-  }
-}
-@media screen and (max-width: 1024px) {
-  form {
-    width: 290px;
-  }
-  form h2 {
-    font-size: 2.4rem;
-    margin: 8px 0;
-  }
-  .img img {
-    width: 360px;
-  }
-}
-@media screen and (max-width: 768px) {
-  .wave {
-    display: none;
-  }
-  .img {
-    display: none;
-  }
-  .container {
-    grid-template-columns: 1fr;
-  }
-  .login-box {
-    justify-content: center;
-  }
 }
 </style>
