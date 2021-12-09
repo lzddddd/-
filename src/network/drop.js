@@ -1,7 +1,6 @@
 import { request } from 'network/request'
 
-
-// 查询课程
+// 退课
 export function dropLesson(stuId, lessonId) {
 
   return request({

@@ -179,7 +179,6 @@ export default {
   created() {
     // 获取已选课程列表信息
     this.getLessonSelected()
-    // 获取课程总数
   },
   methods: {
     // 获取当前学生已选课程
@@ -197,18 +196,32 @@ export default {
 
     // 退课按钮
     async dropClick(lid) {
+      // 弹框提示用户
+      const confirmResult = await this.$confirm('确定退选此课程?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+
+      // 如果确认，则返回字符串 “confirm”
+      // 如果取消，则返回字符串 cancel
+      console.log(confirmResult)
+
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消操作')
+      }
+
       console.log('lid', lid)
       const res = await dropLesson(this.stuId, lid)
       console.log('退课结果', res)
 
       if (res.status === 500) {
-        this.$message.error(res.data.message)
+        return this.$message.error(res.data.message)
       } else if (res.status === 200) {
         this.$message.success('退课成功')
+        // 刷新 页面获取一下最新的 课程列表
+        this.reload()
       }
-
-      // 重新获取一下最新的 课程列表
-      this.reload()
     },
 
     // 实现分页显示
