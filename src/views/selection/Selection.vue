@@ -120,7 +120,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="remainshow" label="剩余可选" align="center">
+        <el-table-column label="剩余可选" align="center">
           <template slot-scope="scope">
             <span>{{scope.row.remainPeople}} / {{scope.row.totalPeople}}</span>
           </template>

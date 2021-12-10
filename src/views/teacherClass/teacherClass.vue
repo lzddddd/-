@@ -1,6 +1,8 @@
 <template>
   <div class="container">
+
     <div class="infoContent">
+
       <el-card>
         <el-descriptions title="用户信息" :column="2" border>
           <el-descriptions-item label="用户">{{
@@ -21,12 +23,7 @@
           <el-descriptions-item label="入职年份">{{
             userInfo.userDO.year
             }}</el-descriptions-item>
-          <!-- <el-descriptions-item label="学院">{{
-            userInfo.collegeMajorDO.collegeName
-          }}</el-descriptions-item>
-          <el-descriptions-item label="专业">{{
-            userInfo.collegeMajorDO.majorName
-          }}</el-descriptions-item> -->
+
         </el-descriptions>
       </el-card>
       <!-- <div class="info">姓名: {{ userInfo.teacherDO.name }}</div>
@@ -40,12 +37,26 @@
         <el-table-column prop="weekday" label="时间" align="center" />
         <el-table-column prop="classes" label="节次" align="center" />
         <el-table-column prop="campusId" label="校区" align="center" />
-        <el-table-column prop="totalPeople" label="已选人数" align="center" />
+
+        <el-table-column label="剩余可选" align="center">
+          <template slot-scope="scope">
+            <span>{{scope.row.remainPeople}} / {{scope.row.totalPeople}}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="学生名单" align="center">
+          <template slot-scope="scope">
+
+            <span @click="toStuList(scope.row.lid)" class="stu-list">学生名单</span>
+          </template>
+        </el-table-column>
+
         <el-table-column prop="totalPeople" label="操作" align="center">
           <template slot-scope="scope">
             <el-button type="primary" @click="close(scope.row.lid)">手动关班</el-button>
           </template>
         </el-table-column>
+
       </el-table>
     </div>
   </div>
@@ -53,13 +64,20 @@
 
 <script>
 import { getTeacherClass, closeClass } from 'network/teacher'
-
 export default {
+  name: '',
   data() {
     return {
       userInfo: {},
       teacherId: '',
       classList: [],
+      classListtest: [
+        {
+          lid: '1511',
+          name: 'java',
+          weekday: '3'
+        }
+      ]
     }
   },
   created() {
@@ -95,6 +113,7 @@ export default {
     // 获取老师课表
     getClassData(teacherId) {
       getTeacherClass(teacherId).then(res => {
+        console.log('getClassData', res)
         this.classList = res.data
         console.log('Class', this.classList)
         this.classList.map(item => {
@@ -134,6 +153,7 @@ export default {
         })
       })
     },
+
     // 手动关班
     closeClassByhand(lessonId, teacherId) {
       closeClass(lessonId, teacherId).then(res => {
@@ -143,7 +163,19 @@ export default {
         }
         this.$router.go(0)
       })
+    },
+
+    // 跳转学生名单
+    toStuList(lid) {
+      this.$router.push({
+        path: 'stulist',
+        query: {
+          lId: lid
+        }
+      })
     }
+
+    //
   }
 }
 </script>
@@ -157,5 +189,11 @@ export default {
 }
 .table {
   margin: 50px;
+}
+
+/* 学生名单 */
+.stu-list {
+  color: #409aff;
+  cursor: pointer;
 }
 </style>

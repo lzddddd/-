@@ -11,6 +11,7 @@ const Myinfo = () => import('views/myinfo/Myinfo')
 const Drop = () => import('views/selection/Drop')
 const HomeTeacher = () => import('views/home/HomeTeacher')
 const teacherClass = () => import('views/teacherClass/teacherClass')
+const StuList = () => import('views/teacherClass/StuList')
 
 
 
@@ -45,6 +46,13 @@ const routes = [
         component: teacherClass,
         meta: {
           title: '教师课表'
+        }
+      },
+      {
+        path: 'stulist',
+        component: StuList,
+        meta: {
+          title: '学生名单'
         }
       }
     ]

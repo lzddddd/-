@@ -8,13 +8,13 @@
     <h2 class="title">学生选课系统</h2>
     <!--切换用户-->
     <div class="typeButton">
-      <el-button autofocus class="btnType" @click="visible = true" plain>学生用户</el-button>
-      <el-button class="btnType" @click="visible = false" plain>教师用户</el-button>
+      <el-button autofocus class="btnType" @click="isStudent = true" plain>学生用户</el-button>
+      <el-button class="btnType" @click="isStudent = false" plain>教师用户</el-button>
     </div>
 
     <!-- 输入区域 -->
     <!--学生登录-->
-    <el-form v-if="visible" ref="loginFormRef" :model="loginFormStudent" :rules="StuloginFormRules" label-width="0px" class="loginForm">
+    <el-form v-if="isStudent" ref="loginFormRef" :model="loginFormStudent" :rules="StuloginFormRules" label-width="0px" class="loginForm">
       <el-form-item prop="account" class="input-group">
         <div class="icon">
           <img src="~assets/img/login/user.svg" alt="" />
@@ -59,7 +59,7 @@
         <div class="icon">
           <img src="~assets/img/login/pwd.svg" alt="" />
         </div>
-        <el-input clearable :type="pwdType" v-model="loginFormTeacher.password" id="input" placeholder="密码"></el-input>
+        <el-input @keyup.enter.native="enter" clearable :type="pwdType" v-model="loginFormTeacher.password" id="input" placeholder="密码"></el-input>
 
         <!-- 密码可见/不可见--眼睛icon -->
         <div class="eye" @click="eyeClick">
@@ -121,8 +121,12 @@ export default {
       // 个人信息
       myInfo: {},
       // 切换学生教师表单
-      visible: true
+      isStudent: true
     }
+  },
+  mounted() {
+    //绑定事件
+    window.addEventListener('keydown', this.keyDown)
   },
   methods: {
     ...mapMutations(['setMyInfo']),
@@ -189,7 +193,21 @@ export default {
         this.$message.success('登录成功，欢迎！')
         this.$router.push('/home')
       })
+    },
+
+    //监听回车按下 enter
+
+    keyDown(e) {
+      //如果是回车则执行登录方法
+      if (e.keyCode == 13) {
+        if (this.isStudent) {
+          return this.handleLoginInStudent()
+        }
+        this.handleLoginInTeacher()
+      }
     }
+
+    //
   }
 }
 </script>

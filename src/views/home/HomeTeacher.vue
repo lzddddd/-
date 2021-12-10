@@ -6,9 +6,7 @@
         <img src="~assets/img/home/Liverpool.jpg" alt="" />
         <span>学生选课系统-教师用户</span>
       </div>
-      <el-button @click="logoutClick" type="info" class="logoutBtn"
-        >退出选课</el-button
-      >
+      <el-button @click="logoutClick" type="info" class="logoutBtn">退出</el-button>
     </el-header>
 
     <el-container>
@@ -17,16 +15,7 @@
         <!-- 点击折叠侧边栏 -->
         <div @click="toggleCollapse" class="toggle-button">|||</div>
 
-        <el-menu
-          unique-opened
-          :collapse="isCollapse"
-          :collapse-transition="false"
-          :router="true"
-          :default-active="activePath"
-          background-color="#333744"
-          text-color="#fff"
-          active-text-color="#06b799"
-        >
+        <el-menu unique-opened :collapse="isCollapse" :collapse-transition="false" :router="true" :default-active="activePath" background-color="#333744" text-color="#fff" active-text-color="#06b799">
           <el-menu-item index="teacherClass">
             <template slot="title">
               <i class="iconfont icon-timetable icon"></i>
@@ -53,7 +42,7 @@ export default {
     return {
       // 是否折叠侧边栏
       isCollapse: false,
-      activePath: '',
+      activePath: ''
     }
   },
   methods: {
@@ -72,8 +61,8 @@ export default {
     // 折叠按钮
     toggleCollapse() {
       this.isCollapse = !this.isCollapse
-    },
-  },
+    }
+  }
 }
 </script>
 
