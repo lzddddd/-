@@ -6,9 +6,7 @@
         <img src="~assets/img/home/Liverpool.jpg" alt="" />
         <span>学生选课系统</span>
       </div>
-      <el-button @click="logoutClick" type="info" class="logoutBtn"
-        >退出选课</el-button
-      >
+      <el-button @click="logoutClick" type="info" class="logoutBtn">退出</el-button>
     </el-header>
 
     <el-container>
@@ -17,16 +15,8 @@
         <!-- 点击折叠侧边栏 -->
         <div @click="toggleCollapse" class="toggle-button">|||</div>
 
-        <el-menu
-          unique-opened
-          :collapse="isCollapse"
-          :collapse-transition="false"
-          :router="true"
-          :default-active="activePath"
-          background-color="#333744"
-          text-color="#fff"
-          active-text-color="#06b799"
-        >
+        <!-- unique-opened -->
+        <el-menu :collapse="isCollapse" :collapse-transition="false" :router="true" :default-active="activePath" background-color="#333744" text-color="#fff" active-text-color="#06b799">
           <!-- 学生选课一级菜单 -->
           <el-submenu index="1">
             <template slot="title">
@@ -35,10 +25,7 @@
             </template>
 
             <!--选课  -->
-            <el-menu-item
-              index="selection"
-              @click="subItemClick((path = 'selection'))"
-            >
+            <el-menu-item index="selection" @click="subItemClick((path = 'selection'))">
               <template slot="title">
                 <i class="iconfont icon-selected icon"></i>
                 <span>学生选课</span>
@@ -97,7 +84,7 @@ export default {
       // 是否折叠侧边栏
       isCollapse: false,
       // 激活的侧边栏链接
-      activePath: '',
+      activePath: ''
     }
   },
   created() {
@@ -129,7 +116,7 @@ export default {
     subItemClick(activePath) {
       window.sessionStorage.setItem('activePath', activePath)
       this.activePath = activePath
-    },
+    }
 
     // // 侧边栏--学生选课
     // selectionClick() {
@@ -144,7 +131,7 @@ export default {
     //   this.$router.push('timetable')
     //   this.currentIndex = 2
     // }
-  },
+  }
 }
 </script>
 

@@ -31,7 +31,6 @@ const routes = [
   },
   {
     path: '/HomeTeacher',
-    name: 'HomeTeacher',
     component: HomeTeacher,
     meta: {
       title: '首页'

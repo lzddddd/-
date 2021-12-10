@@ -28,7 +28,7 @@
         <!-- 星期 -->
         <el-col :span="6">
           星期：
-          <el-select v-model="searchRequestBody.weekday" placeholder="请选择">
+          <el-select v-model="searchRequestBody.weekday" placeholder="请选择" @change="getLessonList(1)">
             <el-option label="全部" value=""></el-option>
             <el-option label="星期一" value="1"></el-option>
             <el-option label="星期二" value="2"></el-option>
@@ -50,7 +50,7 @@
         <!-- 老师名称 -->
         <el-col :span="6">
           教师姓名：
-          <el-input v-model="searchRequestBody.teacherName" placeholder="请输入内容" clearable></el-input>
+          <el-input @blur="getLessonList(1)" v-model="searchRequestBody.teacherName" placeholder="请输入内容" clearable></el-input>
         </el-col>
       </el-row>
 
@@ -250,7 +250,7 @@ export default {
       console.log('查询课程结果', res)
       this.lessonData = res.data
       this.lessonTotal = res.pageCount
-      console.log('click', this.lessonData)
+      console.log('getLessonList', this.lessonData)
     },
 
     // 获取当前学生已选课程
@@ -259,7 +259,7 @@ export default {
       const stuId = this.$store.state.myInfo.studentDO.stuId
       const { data: res } = await getLessonSelected(stuId)
       this.lessonSelected = res
-      console.log('学生已选课程', res)
+      // console.log('学生已选课程', res)
     },
 
     // 过滤已满课程
@@ -354,7 +354,7 @@ export default {
     async getLessonCount() {
       const { data: res } = await getLessonCount()
       this.lessonTotal = res
-      console.log('课程总数', this.lessonTotal)
+      // console.log('课程总数', this.lessonTotal)
     },
 
     // 监听一页显示数的改变
