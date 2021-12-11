@@ -49,15 +49,23 @@ export default {
     }
   },
 
-  created() {
+  activated() {
+    console.log('actived')
     this.getStuList()
+  },
+
+  disactivated() {
+    console.log('disactived')
+
+    this.stuList = []
   },
 
   methods: {
     async getStuList() {
       const lid = this.$route.query.lId
+      console.log(lid)
       const { data: res } = await getStuList(lid)
-      console.log('getStuList', res)
+      console.log('getStuList请求', res)
 
       this.stuList = res
     }

@@ -6,7 +6,11 @@
         <img src="~assets/img/home/Liverpool.jpg" alt="" />
         <span>学生选课系统</span>
       </div>
-      <el-button @click="logoutClick" type="info" class="logoutBtn">退出</el-button>
+      <div class="user" @click="toMyInfo">
+        <!-- <img src="~assets/img/avatar/avatar.jpg" alt=""> -->
+        <p>欢迎，{{this.$store.state.myInfo.studentDO.name}}</p>
+        <el-button @click="logoutClick" type="info" class="logoutBtn">退出</el-button>
+      </div>
     </el-header>
 
     <el-container>
@@ -68,7 +72,7 @@
 
       <!-- 主体 -->
       <el-main :class="{ marginTen: isCollapse }">
-        <keep-alive>
+        <keep-alive exclude="StuList">
           <router-view></router-view>
         </keep-alive>
       </el-main>
@@ -91,10 +95,15 @@ export default {
     this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
-    // 点击跳转
+    // 点击logo跳转首页
     logoClick() {
       this.$router.push('/home')
       this.selectionClick()
+    },
+
+    // 点击跳转个人信息
+    toMyInfo() {
+      this.$router.push('/home/myinfo')
     },
 
     // 退出按钮
@@ -118,19 +127,7 @@ export default {
       this.activePath = activePath
     }
 
-    // // 侧边栏--学生选课
-    // selectionClick() {
-    //   // console.log('11')
-    //   this.$router.push('selection')
-    //   this.currentIndex = 1
-    // },
-
-    // // 侧边栏--个人课表
-    // timetableClick() {
-    //   // console.log('22')
-    //   this.$router.push('timetable')
-    //   this.currentIndex = 2
-    // }
+    //
   }
 }
 </script>
@@ -181,6 +178,26 @@ export default {
 
 .logoutBtn {
   background-color: #333744;
+}
+
+// 用户信息
+.user {
+  cursor: pointer;
+}
+.user::before {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 51px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  background: url('~assets/img/avatar/avatar.jpg') no-repeat -30px -18px;
+  background-size: 110px auto;
+}
+
+.user p {
+  margin: 0 25px 0 15px;
+  color: #fff;
 }
 
 /* 侧边栏区域 */

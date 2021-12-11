@@ -220,7 +220,7 @@ export default {
       } else if (res.status === 200) {
         this.$message.success('退课成功')
         // 刷新 页面获取一下最新的 课程列表
-        this.reload()
+        this.$router.go(0)
       }
     },
 
