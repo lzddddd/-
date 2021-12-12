@@ -9,7 +9,7 @@
       <div class="user" @click="toMyInfo">
         <!-- <img src="~assets/img/avatar/avatar.jpg" alt=""> -->
         <p>欢迎，{{this.$store.state.myInfo.studentDO.name}}</p>
-        <el-button @click="logoutClick" type="info" class="logoutBtn">退出</el-button>
+        <el-button @click="logoutClick" type="info" class="logoutBtn">退 出</el-button>
       </div>
     </el-header>
 
@@ -184,6 +184,7 @@ export default {
 .user {
   cursor: pointer;
 }
+
 .user::before {
   content: '';
   display: block;

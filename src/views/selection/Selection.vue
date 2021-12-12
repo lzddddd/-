@@ -234,8 +234,16 @@ export default {
     // 获取学生已选课程
     this.getLessonSelected()
   },
+  activated() {
+    console.log('activated')
+  },
+  destroyed() {
+    console.log('destroyed')
+  },
+  deactivated() {
+    console.log('deactivated')
+  },
 
-  mounted() {},
   methods: {
     // 查询课程 /  获取课程列表信息
     async getLessonList(pageIndex = 1) {
@@ -285,7 +293,7 @@ export default {
 
     // 是否只看专业课
     onlyMajor(isMajor) {
-      console.log(this.majorId)
+      // console.log(this.majorId)
       // 只看专业课
       if (isMajor) {
         this.searchRequestBody.majorId = this.majorId
@@ -344,7 +352,9 @@ export default {
 
       if (res.status === 200) {
         this.$message.success('选课成功')
-        this.reload()
+        this.getLessonList(this.searchRequestBody.pageIndex)
+        this.getLessonSelected()
+        // this.reload()
       } else {
         return this.$message.error(res.data.message)
       }

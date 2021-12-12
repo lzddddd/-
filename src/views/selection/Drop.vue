@@ -126,19 +126,6 @@ export default {
       pageSize: 3,
       // 当前页码
       pageIndex: 0,
-      searchRequestBody: {
-        // 当前页码
-        pageIndex: 1,
-        // 每页数据量
-        pageSize: 10,
-        // 是否过滤已满
-        filter: 0,
-        campusId: '',
-        required: '',
-        weekday: '',
-        lessonName: '',
-        teacherName: ''
-      },
 
       // 课程总数
       lessonTotal: 0
