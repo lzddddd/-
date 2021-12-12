@@ -167,6 +167,9 @@ export default {
     // 获取已选课程列表信息
     this.getLessonSelected()
   },
+  // activated() {
+  //   this.reload()
+  // },
   methods: {
     // 获取当前学生已选课程
     async getLessonSelected() {

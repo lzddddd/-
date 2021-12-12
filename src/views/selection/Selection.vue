@@ -234,14 +234,15 @@ export default {
     // 获取学生已选课程
     this.getLessonSelected()
   },
-  activated() {
-    console.log('activated')
-  },
-  destroyed() {
-    console.log('destroyed')
-  },
+
+  // activated() {
+  //   console.log('activated')
+  // },
+  // destroyed() {
+  //   console.log('destroyed')
+  // },
   deactivated() {
-    console.log('deactivated')
+    this.reload()
   },
 
   methods: {
